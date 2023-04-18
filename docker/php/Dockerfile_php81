@@ -46,7 +46,7 @@ RUN set -ex; \
 	docker-php-ext-enable imagick; \
 	rm -r /tmp/pear; \
 	\
-# some misbehaving extensions end up outputting to stdout 🙈 (https://github.com/docker-library/wordpress/issues/669#issuecomment-993945967)
+# some misbehaving extensions end up outputting to stdout (https://github.com/docker-library/wordpress/issues/669#issuecomment-993945967)
 	out="$(php -r 'exit(0);')"; \
 	[ -z "$out" ]; \
 	err="$(php -r 'exit(0);' 3>&1 1>&2 2>&3)"; \
