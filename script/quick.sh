@@ -330,7 +330,7 @@ docker_install() {
     fi
 }
 
-DOCKER_COMPOSE_VERSION="2.2.3"
+DOCKER_COMPOSE_VERSION="2.17.2"
 compose_check()   { [ -e ~/.docker/cli-plugins ]; }
 compose_version() { docker compose version; }
 compose_install() {
@@ -440,7 +440,7 @@ EOT
 
 main() {
     echo "=================================================="
-    echo "===   DeunLee's Quick Setup Script (v.1.3.4)   ==="
+    echo "===   DeunLee's Quick Setup Script (v.1.3.5)   ==="
     echo "=================================================="
     echo
     

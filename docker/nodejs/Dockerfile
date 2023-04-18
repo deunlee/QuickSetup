@@ -1,6 +1,6 @@
 # https://hub.docker.com/_/node
 
-FROM node:17.3-alpine3.12
+FROM node:18.16.0-alpine3.16
 
 RUN apk add --no-cache \
 		bash
