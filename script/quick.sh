@@ -76,7 +76,6 @@ get_os_info() {
 
 DIST_NAME="$(get_dist_name)"
 DIST_VER="$(get_dist_version)"
-echo $DIST_NAME $DIST_VER
 
 ################################################################################
 
@@ -94,9 +93,15 @@ clear_cache() {
         return 0 # user pressed "n"
     fi
     case $DIST_NAME in
-        rocky)
+        rocky|almalinux)
             # Tested in Rocky Linux 9.1
+            # Tested in AlmaLinux 9.0
             shadow sudo dnf clean metadata ;;
+        ubuntu)
+            # Tested in Ubuntu 18.04, 20.04
+            shadow sudo apt-get clean --dry-run
+            shadow sudo apt-get clean
+            shadow sudo apt-get update ;;
         *)
             if check yum; then
                 shadow sudo yum clean metadata
@@ -133,12 +138,18 @@ version() { $1 --version | head -n 1;   }
 install() {
     sudo true
     case $DIST_NAME in
-        rocky)
+        rocky|almalinux)
             # Tested in Rocky Linux 8.4, 9.1
+            # Tested in AlmaLinux 9.0
             shadow sudo dnf -y install $@ | cat ;;
+        ubuntu)
+            # Tested in Ubuntu 18.04, 20.04, 22.04
+            shadow sudo apt-get -y install $@ | cat ;;
         *)
-            if check apt ; then
-                shadow sudo apt install -y $@ | cat
+            if check apt-get ; then
+                shadow sudo apt-get -y install $@ | cat
+            elif check dnf ; then
+                shadow sudo dnf -y install $@ | cat
             elif check yum ; then
                 shadow sudo yum -y install $@ | cat
             else
@@ -214,10 +225,11 @@ install_script() { # install the script (download to /usr/local/bin)
 ################################################################################
 
 htop_install() {
-    case $(get_dist_name) in
-        centos|rocky)
+    case $DIST_NAME in
+        centos|rocky|almalinux)
             # Tested in CentOS 7
             # Tested in Rocky Linux 8.4, 9.1
+            # Tested in AlmaLinux 9.0
             install epel-release ;;
         ol)
             # Tested in Oracle Linux 7.9, 8.5
@@ -226,6 +238,7 @@ htop_install() {
                 8*) shadow sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm ;;
                 *)  return 1 ;;
             esac ;;
+        # Already installed in Ubuntu 18.04, 20.04, 22.04
     esac
     install htop
 }
@@ -349,9 +362,10 @@ EOT
 
 docker_install() {
     echo -en "$DGRAY"
-    case $(get_dist_name) in
-        rocky)
+    case $DIST_NAME in
+        rocky|almalinux)
             # Tested in Rocky Linux 8.4, 9.1
+            # Tested in AlmaLinux 9.0
             sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
             sudo dnf install -y --allowerasing docker-ce ;;
         ol)
@@ -363,6 +377,7 @@ docker_install() {
             # https://docs.aws.amazon.com/ko_kr/AmazonECS/latest/developerguide/docker-basics.html
             sudo amazon-linux-extras install -y docker | cat ;;
         *)
+            # Tested in Ubuntu 18.04, 20.04, 22.04
             curl -fsSL https://get.docker.com/ | sh ;;
     esac
     if [ $? -ne 0 ]; then return 1; fi
@@ -405,6 +420,7 @@ code_install() {
     curl -fsSL https://code-server.dev/install.sh | sh
     if [ $? -ne 0 ]; then return 1; fi
 
+    sleep 3
     shadow sudo systemctl start code-server@$USER
     shadow sudo systemctl enable code-server@$USER
     echo
@@ -491,7 +507,7 @@ EOT
 
 main() {
     echo "=================================================="
-    echo "===   DeunLee's Quick Setup Script (V.1.4.0)   ==="
+    echo "===   DeunLee's Quick Setup Script (V.1.4.1)   ==="
     echo "=================================================="
     echo
     
