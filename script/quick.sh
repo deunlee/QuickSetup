@@ -201,7 +201,7 @@ install_script() { # install the script (download to /usr/local/bin)
 
         if [ "$default_run" == "y" ] ; then
             echo
-            script_path
+            "$script_path"
         fi
     else
         return 0 # user pressed "n"
@@ -489,7 +489,7 @@ EOT
 
 main() {
     echo "=================================================="
-    echo "===   DeunLee's Quick Setup Script (V.1.3.6)   ==="
+    echo "===   DeunLee's Quick Setup Script (V.1.4.0)   ==="
     echo "=================================================="
     echo
     

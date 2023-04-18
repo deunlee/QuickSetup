@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-VER_WORDPRESS="5.9.2"
-VER_PHP_MY_ADMIN="5.1.3"
+# https://wordpress.org/download/releases/
+WORDPRESS_VERSION="6.2"
+# https://www.phpmyadmin.net/downloads/
+PHP_MY_ADMIN_VERSION="5.2.1"
+
+################################################################################
 
 PATH_ASSET="./asset"
 PATH_BACKUP="./backup"
@@ -127,7 +131,7 @@ init_nginx() {
 ################################################################################
 
 install_php_my_admin() {
-    PMA_URL="https://files.phpmyadmin.net/phpMyAdmin/$VER_PHP_MY_ADMIN/phpMyAdmin-$VER_PHP_MY_ADMIN-all-languages.zip"
+    PMA_URL="https://files.phpmyadmin.net/phpMyAdmin/$PHP_MY_ADMIN_VERSION/phpMyAdmin-$PHP_MY_ADMIN_VERSION-all-languages.zip"
     PMA_FILE="$PATH_ASSET/${PMA_URL##*/}"
     PMA_DIR="${PMA_FILE%.zip}"
     PMA_PATH="$PATH_HTML/pma"
@@ -159,14 +163,14 @@ install_php_my_admin() {
     # Create temporary directory.
     mkdir "$PMA_PATH/tmp"
     chmod 777 "$PMA_PATH/tmp"
-    log_info "phpMyAdmin has been successfully installed. (v.$VER_PHP_MY_ADMIN)"
+    log_info "phpMyAdmin has been successfully installed. (v.$PHP_MY_ADMIN_VERSION)"
 }
 
 ################################################################################
 
 install_wordpress() {
     # https://wordpress.org/download/releases/
-    WP_URL="https://wordpress.org/wordpress-$VER_WORDPRESS.tar.gz"
+    WP_URL="https://wordpress.org/wordpress-$WORDPRESS_VERSION.tar.gz"
     WP_FILE="$PATH_ASSET/${WP_URL##*/}"
     WP_PATH="$PATH_HTML/wp"
     WP_PATH_OLD="$PATH_HTML/wp-old"
@@ -222,14 +226,14 @@ install_wordpress() {
         sed -i "s/your.domain.com/$NG_DOMAIN/" "$NG_CONFIG"
     fi
 
-    log_info "WordPress has been successfully installed. (v.$VER_WORDPRESS)"
+    log_info "WordPress has been successfully installed. (v.$WORDPRESS_VERSION)"
 }
 
 ################################################################################
 
 main() {
     echo "========================================"
-    echo ">>> Docker Server Init Script (V.1.3.1)"
+    echo ">>> Docker Server Init Script (V.1.3.2)"
     echo "========================================"
     echo
 
