@@ -146,7 +146,7 @@ install_php_my_admin() {
 
     # Download the file.
     if [ ! -e "$PMA_FILE" ]; then
-        run_command wget "$PMA_URL" -O "$PMA_FILE"
+        run_command curl "$PMA_URL" -o "$PMA_FILE"
     fi
 
     # Unzip and move it.
@@ -169,7 +169,6 @@ install_php_my_admin() {
 ################################################################################
 
 install_wordpress() {
-    # https://wordpress.org/download/releases/
     WP_URL="https://wordpress.org/wordpress-$WORDPRESS_VERSION.tar.gz"
     WP_FILE="$PATH_ASSET/${WP_URL##*/}"
     WP_PATH="$PATH_HTML/wp"
@@ -187,7 +186,7 @@ install_wordpress() {
 
     # Download the file.
     if [ ! -e "$WP_FILE" ]; then
-        run_command wget "$WP_URL" -O "$WP_FILE"
+        run_command curl "$WP_URL" -o "$WP_FILE"
     fi
 
     # Unzip and move it.
