@@ -252,11 +252,19 @@ zsh_add_aliases() {
 alias l="ls -alh --color=always -F --group-directories-first |awk '{k=0;s=0;for(i=0;i<=8;i++){;k+=((substr(\$1,i+2,1)~/[rwxst]/)*2^(8-i));};j=4;for(i=4;i<=10;i+=3){;s+=((substr(\$1,i,1)~/[stST]/)*j);j/=2;};if(k){;printf(\"%0o%0o \",s,k);};print;}'"
 alias q='exit'
 alias cls='clear'
-alias h='history'
-alias hs='history | grep'
+alias h='  history'
+alias hs=' history | grep'
 alias hsi='history | grep -i'
 alias dcache='echo 3 | sudo tee /proc/sys/vm/drop_caches'
 # alias userinfo='sudo tail -n 3 /etc/passwd && echo && sudo tail -n 3 /etc/shadow && echo && sudo tail -n 3 /etc/group && echo && sudo tail -n 3 /etc/gshadow'
+
+alias gl='   git log --oneline --graph --decorate'
+alias gbr='  git log --all --graph --decorate --oneline --simplify-by-decoration'
+alias glog=' git log --graph --pretty=format:"%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %C(green)%cn <%ce>%Creset %s"'
+alias giso=' git log --graph --pretty=format:"%C(auto)%h%d%Creset %C(cyan)(%ci)%Creset %C(green)%cn <%ce>%Creset %s"'
+alias gdate='git log --graph --pretty=format:"%C(auto)%h%Creset CDate=%C(cyan)(%ci)%Creset ADate=%C(green)(%ai)%Creset %s"'
+alias guser='git log --graph --pretty=format:"%C(auto)%h%Creset C=%C(cyan)%cn <%ce>%Creset A=%C(green)%an <%ae>%Creset %s"'
+
 EOT
 }
 
