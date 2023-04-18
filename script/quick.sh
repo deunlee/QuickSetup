@@ -74,6 +74,10 @@ get_os_info() {
     fi
 }
 
+DIST_NAME="$(get_dist_name)"
+DIST_VER="$(get_dist_version)"
+echo $DIST_NAME $DIST_VER
+
 ################################################################################
 
 shadow() {
@@ -84,9 +88,26 @@ shadow() {
     return $ret
 }
 
+clear_cache() {
+    sudo true
+    if [ $(confirm "Do you want to clear package manager's cache?" "n") = "n" ]; then
+        return 0 # user pressed "n"
+    fi
+    case $DIST_NAME in
+        rocky)
+            # Tested in Rocky Linux 9.1
+            shadow sudo dnf clean metadata ;;
+        *)
+            if check yum; then
+                shadow sudo yum clean metadata
+            fi ;;
+    esac
+}
+
 update() {
-    case $(get_dist_name) in
-        rocky) # Rocky Linux (tested: 8.4)
+    case $DIST_NAME in
+        rocky)
+            # Tested in Rocky Linux 8.4
             shadow sudo dnf update ;;
         *)
             if check apt ; then
@@ -108,11 +129,12 @@ update() {
 
 check()   { which $1 > /dev/null 2>&1 ; }
 version() { $1 --version | head -n 1;   }
+
 install() {
     sudo true
-
-    case $(get_dist_name) in
-        rocky) # Rocky Linux (tested: 8.4)
+    case $DIST_NAME in
+        rocky)
+            # Tested in Rocky Linux 8.4, 9.1
             shadow sudo dnf -y install $@ | cat ;;
         *)
             if check apt ; then
@@ -156,12 +178,14 @@ install_package() { # install a package
     if [ "$T" = "Installed" ]; then echo ; fi
 }
 
-install_script() { # install(download) a script (/usr/local/bin)
+SCRIPT_INSTALL_PATH="/usr/local/bin"
+
+install_script() { # install the script (download to /usr/local/bin)
     name="$1"
     download_url="$2"
     is_recommend="${3:-y}"
 
-    script_path="/usr/local/bin/$name"
+    script_path="$SCRIPT_INSTALL_PATH/$name"
 
     T="Installed"
     if [ -e "$script_path" ] ; then
@@ -185,9 +209,12 @@ install_script() { # install(download) a script (/usr/local/bin)
 
 htop_install() {
     case $(get_dist_name) in
-        centos|rocky) # CentOS (tested: 7), Rocky Linux (tested: 8.4)
+        centos|rocky)
+            # Tested in CentOS 7
+            # Tested in Rocky Linux 8.4, 9.1
             install epel-release ;;
-        ol) # Oracle Linux (tested: 7.9, 8.5)
+        ol)
+            # Tested in Oracle Linux 7.9, 8.5
             case $(get_dist_version) in
                 7*) shadow sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm ;;
                 8*) shadow sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm ;;
@@ -311,13 +338,16 @@ EOT
 docker_install() {
     echo -en "$DGRAY"
     case $(get_dist_name) in
-        rocky) # Rocky Linux (tested: 8.4)
+        rocky)
+            # Tested in Rocky Linux 8.4, 9.1
             sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
             sudo dnf install -y --allowerasing docker-ce ;;
-        ol) # Oracle Linux (tested: 7.9, 8.5)
+        ol)
+            # Tested in Oracle Linux 7.9, 8.5
             sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
             sudo yum install -y docker-ce docker-ce-cli containerd.io | cat ;;
-        amzn) # Amazon Linux 2 (tested: 2)
+        amzn)
+            # Tested in Amazon Linux 2
             # https://docs.aws.amazon.com/ko_kr/AmazonECS/latest/developerguide/docker-basics.html
             sudo amazon-linux-extras install -y docker | cat ;;
         *)
@@ -448,7 +478,7 @@ EOT
 
 main() {
     echo "=================================================="
-    echo "===   DeunLee's Quick Setup Script (v.1.3.5)   ==="
+    echo "===   DeunLee's Quick Setup Script (V.1.3.6)   ==="
     echo "=================================================="
     echo
     
@@ -464,31 +494,34 @@ main() {
         fi
     fi
 
-    # update
-    if check yum; then
-        shadow sudo yum clean metadata
-        # shadow sudo yum install -y yum-utils
-    fi
+    clear_cache
 
     install_package "htop"
     install_package "git"
-    install_package "gcc"
+    install_package "gcc"       "gcc"       "n"
+    install_package "net-tools" "net-tools" "n"
     install_package "vim"
     install_package "zsh"
-    install_package "omz"     "oh-my-zsh"
+    install_package "omz"       "oh-my-zsh"
     install_package "docker"
-    install_package "compose" "docker-compose"
-    install_package "code"    "code-server"
+    install_package "compose"   "docker-compose"
+    install_package "code"      "code-server"
 
     zsh_add_aliases
     zsh_add_docker_aliases
 
-    install_script  "neofetch"                 "https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch"
-    install_script  "spectre-meltdown-checker" "https://raw.githubusercontent.com/speed47/spectre-meltdown-checker/master/spectre-meltdown-checker.sh"
+
+    GIT_RAW="https://raw.githubusercontent.com"
+
+    install_script "neofetch" "$GIT_RAW/dylanaraps/neofetch/master/neofetch"
+    [ -e "$SCRIPT_INSTALL_PATH/neofetch" ] && echo && "$SCRIPT_INSTALL_PATH/neofetch"
+
+    install_script "spectre-meltdown-checker" "$GIT_RAW/speed47/spectre-meltdown-checker/master/spectre-meltdown-checker.sh"
     echo
     
-    if [ ! -e ~/docker ] && [ $(confirm "Do you want to clone deunlee/Docker-Server repository to ~/docker?" "n") = "y" ]; then
-        shadow git clone https://github.com/deunlee/Docker-Server ~/docker
+
+    if [ ! -e ~/docker ] && [ $(confirm "Do you want to clone deunlee/QuickSetup repository to ~/server?" "n") = "y" ]; then
+        shadow git clone https://github.com/deunlee/QuickSetup ~/server
     fi
 
     log_info "Finished!"
