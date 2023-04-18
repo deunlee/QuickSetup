@@ -230,6 +230,8 @@ htop_install() {
     install htop
 }
 
+zip_version() { zip -h | head -n 2 | tail -n 1; }
+
 nettools_check()   { check netstat; }
 nettools_version() { version netstat; }
 nettools_install() { install net-tools; }
@@ -508,6 +510,8 @@ main() {
     clear_cache
 
     install_package "htop"
+    install_package "wget"
+    install_package "zip"
     install_package "git"
     install_package "gcc"      "gcc"       "n"
     install_package "nettools" "net-tools" "n"
