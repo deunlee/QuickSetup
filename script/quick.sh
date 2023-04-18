@@ -184,6 +184,7 @@ install_script() { # install the script (download to /usr/local/bin)
     name="$1"
     download_url="$2"
     is_recommend="${3:-y}"
+    default_run="${3:-n}"
 
     script_path="$SCRIPT_INSTALL_PATH/$name"
 
@@ -197,6 +198,11 @@ install_script() { # install the script (download to /usr/local/bin)
             return 1
         fi
         sudo chmod +x "$script_path"
+
+        if [ "$default_run" == "y" ] ; then
+            echo
+            script_path
+        fi
     else
         return 0 # user pressed "n"
     fi
@@ -223,6 +229,10 @@ htop_install() {
     esac
     install htop
 }
+
+nettools_check()   { check netstat; }
+nettools_version() { version netstat; }
+nettools_install() { install net-tools; }
 
 ################################################################################
 
@@ -369,6 +379,7 @@ docker_install() {
 }
 
 DOCKER_COMPOSE_VERSION="2.17.2"
+
 compose_check()   { [ -e ~/.docker/cli-plugins ]; }
 compose_version() { docker compose version; }
 compose_install() {
@@ -498,24 +509,21 @@ main() {
 
     install_package "htop"
     install_package "git"
-    install_package "gcc"       "gcc"       "n"
-    install_package "net-tools" "net-tools" "n"
+    install_package "gcc"      "gcc"       "n"
+    install_package "nettools" "net-tools" "n"
     install_package "vim"
     install_package "zsh"
-    install_package "omz"       "oh-my-zsh"
+    install_package "omz"      "oh-my-zsh"
     install_package "docker"
-    install_package "compose"   "docker-compose"
-    install_package "code"      "code-server"
+    install_package "compose"  "docker-compose"
+    install_package "code"     "code-server"
 
     zsh_add_aliases
     zsh_add_docker_aliases
 
 
     GIT_RAW="https://raw.githubusercontent.com"
-
-    install_script "neofetch" "$GIT_RAW/dylanaraps/neofetch/master/neofetch"
-    [ -e "$SCRIPT_INSTALL_PATH/neofetch" ] && echo && "$SCRIPT_INSTALL_PATH/neofetch"
-
+    install_script "neofetch" "$GIT_RAW/dylanaraps/neofetch/master/neofetch" "y"
     install_script "spectre-meltdown-checker" "$GIT_RAW/speed47/spectre-meltdown-checker/master/spectre-meltdown-checker.sh"
     echo
     
