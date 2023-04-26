@@ -531,6 +531,7 @@ main() {
     install_package "git"
     install_package "gcc"      "gcc"       "n"
     install_package "nettools" "net-tools" "n"
+    install_package "tcpdump"  "tcpdump"   "n"
     install_package "vim"
     install_package "zsh"
     install_package "omz"      "oh-my-zsh"
