@@ -1,7 +1,7 @@
 asset/
 backup/
 log/
-*.ini
+/*.ini
 
 service/certbot/**
 !service/certbot/options-ssl-nginx.conf
@@ -22,5 +22,6 @@ service/nginx/sites-enabled/*.conf
 !service/nginx/sites-enabled/default_server.conf
 
 www/html/**
+!www/html/dump.php_
 !www/html/index.php
 !www/html/robots.txt

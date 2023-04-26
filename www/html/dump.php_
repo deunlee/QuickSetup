@@ -1,0 +1,9 @@
+<?php
+    echo("<html><body>\n\n");
+    echo("<h2>GET</h2><pre>\n"    . htmlspecialchars(print_r($_GET,    true)) . "</pre><br><hr>\n\n");
+    echo("<h2>POST</h2><pre>\n"   . htmlspecialchars(print_r($_POST,   true)) . "</pre><br><hr>\n\n");
+    echo("<h2>COOKIE</h2><pre>\n" . htmlspecialchars(print_r($_COOKIE, true)) . "</pre><br><hr>\n\n");
+    echo("<h2>SERVER</h2><pre>\n" . htmlspecialchars(print_r($_SERVER, true)) . "</pre><br><hr>\n\n");
+    echo("<h2>EXTENSIONS</h2><pre>\n" . htmlspecialchars(print_r(get_loaded_extensions(), true)) . "</pre><br><hr>\n\n");
+    echo("\n</body></html>");
+?>
