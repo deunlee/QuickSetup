@@ -32,7 +32,8 @@ services:
         depends_on:
             - mariadb
         volumes:
-            - ./service/php/config.ini:/usr/local/etc/php/conf.d/config.ini:ro
+            - ./service/php/php.ini:/usr/local/etc/php/conf.d/zzz-override.ini:ro
+            - ./service/php/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-override.conf:ro
             - ./www/html:/var/www/html
             - ./log/php:/var/log/php
         env_file:

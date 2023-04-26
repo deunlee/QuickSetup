@@ -12,6 +12,11 @@ else
     >&2 echo "The timezone environment variable is not set. Please set TZ in docker."
 fi
 
+touch /var/log/php/php-fpm.log
+touch /var/log/php/error.log
+touch /var/log/php/access.log
+chmod a+rw /var/log/php/*
+
 
 # https://github.com/docker-library/php/blob/master/7.3/alpine3.14/fpm/docker-php-entrypoint
 set -e
