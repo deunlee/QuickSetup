@@ -492,15 +492,17 @@ EOT
     done < "$EXT_FILE"
     rm "$EXT_FILE"
 
-#     cat <<EOT > ~/.local/share/code-server/User/settings.json
-# {
-#     "editor.fontFamily": "Consolas, Hack, 'Malgun Gothic', monospace",
-#     "workbench.colorTheme": "Default Dark+",
-#     "workbench.iconTheme": "vscode-icons",
-#     "workbench.tree.indent": 16,
-#     "telemetry.enableTelemetry": false,
-# }
-# EOT
+    cat <<EOT > ~/.local/share/code-server/User/settings.json
+{
+    "editor.fontFamily": "D2Coding, Consolas, Hack, 'Malgun Gothic', monospace",
+    "editor.fontSize": 15,
+    "editor.rulers": [120],
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.tree.indent": 16,
+    "telemetry.telemetryLevel": "off"
+}
+EOT
 }
 
 ################################################################################

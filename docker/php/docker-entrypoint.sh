@@ -12,6 +12,7 @@ else
     >&2 echo "The timezone environment variable is not set. Please set TZ in docker."
 fi
 
+
 touch /var/log/php/php-fpm.log
 touch /var/log/php/error.log
 touch /var/log/php/access.log
