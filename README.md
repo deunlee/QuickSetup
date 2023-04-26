@@ -11,4 +11,19 @@ curl -o q.sh https://raw.githubusercontent.com/deunlee/QuickSetup/main/script/qu
 chmod +x q.sh && ./q.sh
 ```
 
+Tools:
+- System: `htop`, `wget`, `zip`, `vim`, `zsh`, `oh-my-zsh`, `neofetch`
+- Network: `net-tools`, `tcpdump`
+- Development: `git`, `gcc`, `code-server`
+- Container: `docker`, `docker compose`
+
+Docker Compose with:
+- NGINX
+- PHP
+- MariaDB
+- CertBot
+- Node.js
+- MongoDB
+
+
 

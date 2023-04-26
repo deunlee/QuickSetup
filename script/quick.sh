@@ -453,8 +453,8 @@ code_install_extensions() {
     cat <<EOT > "$EXT_FILE"
 ############### Development ###############
 ms-vscode.cpptools
-# ms-python.python
 # ms-azuretools.vscode-docker
+editorconfig.editorconfig
 
 ################## Tool ###################
 mhutchie.git-graph
@@ -463,11 +463,14 @@ tyriar.sort-lines
 
 ############### JavaScript ################
 # dbaeumer.vscode-eslint
-# editorconfig.editorconfig
+# vue.volar
+
+################# Python ##################
+ms-python.python
 
 ################## Style ##################
 vscode-icons-team.vscode-icons
-# ms-ceintl.vscode-language-pack-ko
+ms-ceintl.vscode-language-pack-ko
 # ms-ceintl.vscode-language-pack-ja
 EOT
 
