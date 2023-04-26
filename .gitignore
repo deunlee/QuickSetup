@@ -14,12 +14,6 @@ service/mariadb/config.env
 
 service/nginx/private
 service/nginx/helper/block
-service/nginx/sites-available/*.conf
-!service/nginx/sites-available/block_direct_ip.conf
-!service/nginx/sites-available/your.domain.com.conf
-!service/nginx/sites-available/default_server.conf
-service/nginx/sites-enabled/*.conf
-!service/nginx/sites-enabled/default_server.conf
 
 www/html/**
 !www/html/dump.php_
