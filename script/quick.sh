@@ -342,6 +342,7 @@ alias dinn='docker network inspect'
 alias dpr=' docker system prune -a'
 alias dco=' docker compose'
 alias dcb=' docker compose build'
+alias dcbp='docker compose build --progress plain'
 alias dce=' docker compose exec'
 alias dcps='docker compose ps'
 alias dcr=' docker compose run'
@@ -537,6 +538,7 @@ main() {
     install_package "gcc"      "gcc"       "n"
     install_package "nettools" "net-tools" "n"
     install_package "tcpdump"  "tcpdump"   "n"
+    install_package "nmap"     "nmap"      "n"
     install_package "vim"
     install_package "zsh"
     install_package "omz"      "oh-my-zsh"

@@ -7,17 +7,17 @@ PHP_MY_ADMIN_VERSION="5.2.1"
 
 ################################################################################
 
-PATH_ASSET="./asset"
 PATH_BACKUP="./backup"
 PATH_LOG="./log"
 PATH_SVC="./service"
+PATH_ASSET="./www/asset"
 PATH_HTML="./www/html"
 
-mkdir -p "$PATH_ASSET"
 mkdir -p "$PATH_LOG/nginx"
 mkdir -p "$PATH_LOG/php"
 mkdir -p "$PATH_SVC/mariadb/database"
 mkdir -p "$PATH_SVC/mariadb/init"
+mkdir -p "$PATH_ASSET"
 mkdir -p "$PATH_HTML"
 
 ################################################################################
@@ -232,7 +232,7 @@ install_wordpress() {
 
 main() {
     echo "========================================"
-    echo ">>> Docker Server Init Script (V.1.3.2)"
+    echo ">>> Docker Server Init Script (V.1.3.3)"
     echo "========================================"
     echo
 
