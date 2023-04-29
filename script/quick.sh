@@ -195,7 +195,7 @@ install_script() { # install the script (download to /usr/local/bin)
     name="$1"
     download_url="$2"
     is_recommend="${3:-y}"
-    default_run="${3:-n}"
+    default_run="${4:-n}"
 
     script_path="$SCRIPT_INSTALL_PATH/$name"
 
@@ -551,8 +551,8 @@ main() {
 
 
     GIT_RAW="https://raw.githubusercontent.com"
-    install_script "neofetch" "$GIT_RAW/dylanaraps/neofetch/master/neofetch" "y"
-    install_script "spectre-meltdown-checker" "$GIT_RAW/speed47/spectre-meltdown-checker/master/spectre-meltdown-checker.sh"
+    install_script "neofetch" "$GIT_RAW/dylanaraps/neofetch/master/neofetch" "y" "y"
+    install_script "spectre-meltdown-checker" "$GIT_RAW/speed47/spectre-meltdown-checker/master/spectre-meltdown-checker.sh" "n"
     echo
     
 
