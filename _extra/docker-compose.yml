@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+    rocky:
+        build: docker/kasm
+        environment:
+            - VNC_PW=12341234
+            # Web VNC User: kasm_user
+            # Linux User  : kasm-user
+        ports:
+            - 6901:6901
+        shm_size: 1G # default=512m
+
