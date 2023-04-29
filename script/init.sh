@@ -51,7 +51,7 @@ confirm() {
         case $INPUT in
             [Yy]|[Yy][Ee][Ss]) echo 'y'; break ;;
             [Nn]|[Nn][Oo])     echo 'n'; break ;;
-            "") 
+            "")
                 case $2 in
                     [Yy]) echo 'y'; break ;;
                     [Nn]) echo 'n'; break ;;
@@ -258,7 +258,12 @@ main() {
         echo
     fi
 
+    if [ $(confirm "Do you want to build the docker image now?" "y") = "y" ]; then
+        docker compose build
+    fi
+
     log_info "Finished!"
 }
 
 main
+

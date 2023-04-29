@@ -55,7 +55,7 @@ trim() { # https://stackoverflow.com/questions/369758/how-to-trim-whitespace-fro
     # Remove leading whitespace characters
     var="${var#"${var%%[![:space:]]*}"}"
     # Remove trailing whitespace characters
-    var="${var%"${var##*[![:space:]]}"}"   
+    var="${var%"${var##*[![:space:]]}"}"
     printf '%s' "$var"
 }
 
@@ -184,7 +184,7 @@ install_package() { # install a package
     else
         return 0 # user pressed "n"
     fi
-    
+
     log_info "$T: $dname ${DGRAY}($($func_version $name))${NC}"
     if [ "$T" = "Installed" ]; then echo ; fi
 }
@@ -217,7 +217,7 @@ install_script() { # install the script (download to /usr/local/bin)
     else
         return 0 # user pressed "n"
     fi
-    
+
     log_info "$T: $name"
     if [ "$T" = "Installed" ]; then echo ; fi
 }
@@ -325,7 +325,7 @@ zsh_add_docker_aliases() {
     [ -e "$SHELL_CONFIG" ]               || return 1 # Returns 1 if the shell config does not exist.
     grep -q "alias dcup" "$SHELL_CONFIG" && return 0 # Returns 0 if already added.
     [ $(confirm "Do you want to add docker aliases to shell?" "y") = "n" ] && return 0
-    
+
     cat <<EOT >> "$SHELL_CONFIG"
 
 alias dps=' docker ps -a'
@@ -333,6 +333,7 @@ alias dimg='docker images'
 alias dpl=' docker pull'
 alias drm=' docker rm'
 alias drmi='docker rmi'
+alias drmd='docker rmi $(docker image ls -q --filter "dangling=true")'
 alias drn=' docker run -it --rm'
 alias dex=' docker exec -it'
 alias dvol='docker volume ls'
@@ -425,7 +426,7 @@ code_install() {
     shadow sudo systemctl start code-server@$USER
     shadow sudo systemctl enable code-server@$USER
     echo
-    
+
     CONFIG_FILE=~/.config/code-server/config.yaml
     restart=0
     if [ $(confirm "Do you want to change the bind address to allow external access to code-server?" "y") = "y" ]; then
@@ -516,7 +517,7 @@ main() {
     echo "===   DeunLee's Quick Setup Script (V.1.4.1)   ==="
     echo "=================================================="
     echo
-    
+
     log_info $(get_os_info)
     log_info $(uname -mrs)
     echo
@@ -554,7 +555,7 @@ main() {
     install_script "neofetch" "$GIT_RAW/dylanaraps/neofetch/master/neofetch" "y" "y"
     install_script "spectre-meltdown-checker" "$GIT_RAW/speed47/spectre-meltdown-checker/master/spectre-meltdown-checker.sh" "n"
     echo
-    
+
 
     if [ ! -e ~/docker ] && [ $(confirm "Do you want to clone deunlee/QuickSetup repository to ~/server?" "n") = "y" ]; then
         shadow git clone https://github.com/deunlee/QuickSetup ~/server
