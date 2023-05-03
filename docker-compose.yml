@@ -16,7 +16,7 @@ services:
             - ./service/mariadb/init:/docker-entrypoint-initdb.d:ro
             - ./service/mariadb/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf:ro
         # ports:
-            # - "3306:3306"
+            # - 3306:3306
         env_file:
             - ./docker/common.env
             - ./service/mariadb/config.env
@@ -62,8 +62,8 @@ services:
             # - ./www/certbot:/var/www/certbot:ro
             - ./log/nginx:/var/log/nginx
         ports:
-            - "80:80"
-            - "443:443"
+            - 80:80
+            - 443:443
         env_file:
             - ./docker/common.env
         extra_hosts:
@@ -105,25 +105,23 @@ services:
             # 노드 환경 변수는 상황에 맞게 production 또는 development로 변경한다.
 
 
-
-
     uptime: # https://hub.docker.com/r/louislam/uptime-kuma
         image: louislam/uptime-kuma:1
         restart: always
         volumes:
             - ./service/uptime:/app/data
         ports:
-            - "3001:3001"
+            - 3001:3001
 
 
-    rocky:
+    kasmweb: # https://hub.docker.com/r/kasmweb/rockylinux-9-desktop
         build: docker/kasmweb
+        ports:
+            - 6901:6901
         environment:
             - VNC_PW=12341234
             # Web VNC User: kasm_user
             # Linux User  : kasm-user
-        ports:
-            - 6901:6901
         shm_size: 1G # (default: 512m)
 
 # container_name : 컨테이너 고유 이름 (지정하지 않을 경우 자동 생성)
