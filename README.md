@@ -1,12 +1,6 @@
 # Quick Setup
 
 ```
-git clone https://github.com/deunlee/QuickSetup server
-cd server
-./script/init.sh
-```
-
-```
 curl -o q.sh https://raw.githubusercontent.com/deunlee/QuickSetup/main/script/quick.sh
 chmod +x q.sh && ./q.sh
 ```
@@ -18,12 +12,17 @@ Tools:
 - Container: `docker`, `docker compose`
 
 Docker Compose with:
-- NGINX
-- PHP
-- MariaDB
-- CertBot
-- Node.js
-- MongoDB
+- `NGINX`, `PHP`, `MariaDB`, `Certbot`, `WordPress`, `phpMyAdmin`
+- `Node.js`, `MongoDB`, `Python`
+- `KasmVNC`, `Rocky Linux`, `Xfce`
+- `Guacamole`
+
+```
+git clone https://github.com/deunlee/QuickSetup server
+cd server
+./script/init.sh
+```
+
 
 
 

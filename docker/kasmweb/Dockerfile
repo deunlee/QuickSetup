@@ -25,6 +25,7 @@ RUN set -ex; \
 	sed -i 's/ZSH_THEME="[A-Za-z]*"/ZSH_THEME="agnoster"/' ~/.zshrc; \
 	sed -i 's/plugins=([A-Za-z]*)/plugins=(git zsh-syntax-highlighting zsh-autosuggestions)/' ~/.zshrc; \
 	sudo usermod --shell $(which zsh) $USER;
+	# groupadd sudo && usermod -aG sudo $USER;
 
 # RUN echo "exec zsh >> ~/.bashrc" >> /dockerstartup/vnc_startup.sh;
 
@@ -34,4 +35,3 @@ RUN set -ex; \
 	sudo unzip nanumfont.zip -d /usr/share/fonts/nanum; \
 	rm -f nanumfont.zip; \
 	sudo fc-cache -f -v;
-
