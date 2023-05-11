@@ -77,6 +77,10 @@ get_os_info() {
 DIST_NAME="$(get_dist_name)"
 DIST_VER="$(get_dist_version)"
 
+is_service_running() {
+    systemctl is-active --quiet "$1"
+}
+
 ################################################################################
 
 shadow() {
@@ -514,7 +518,7 @@ EOT
 
 main() {
     echo "=================================================="
-    echo "===   DeunLee's Quick Setup Script (V.1.4.1)   ==="
+    echo "===   DeunLee's Quick Setup Script (V.1.4.2)   ==="
     echo "=================================================="
     echo
 
@@ -529,6 +533,18 @@ main() {
             exit
         fi
     fi
+
+    # Tested in Rocky Linux 9.1
+    if is_service_running firewalld ; then
+        if [ $(confirm "Do you want to disable firewalld?" "y") = "y" ]; then
+            sudo systemctl stop firewalld
+            shadow sudo systemctl disable firewalld
+            shadow sudo systemctl status firewalld --no-pager
+            echo
+        fi
+    fi
+    # sudo ufw status
+    # sudo ufw disable
 
     clear_cache
 
@@ -565,6 +581,3 @@ main() {
 }
 
 main
-
-# sudo systemctl stop firewalld
-# sudo systemctl disable firewalld

@@ -126,10 +126,14 @@ services:
         ports:
             - 8081:8081
         environment:
+            ME_CONFIG_BASICAUTH_USERNAME: 'user'
+            ME_CONFIG_BASICAUTH_PASSWORD: 'web-password'
             ME_CONFIG_MONGODB_ADMINUSERNAME: root
             ME_CONFIG_MONGODB_ADMINPASSWORD: some-secure-password
             ME_CONFIG_MONGODB_URL: mongodb://root:some-secure-password@mongo:27017/
-
+            # ME_CONFIG_SITE_SSL_ENABLED: true
+            # ME_CONFIG_SITE_SSL_CRT_PATH: ''
+            # ME_CONFIG_SITE_SSL_KEY_PATH: ''
     #================================================================================
 
     uptime: # https://hub.docker.com/r/louislam/uptime-kuma
@@ -152,6 +156,8 @@ services:
         shm_size: 1G # (default: 512m)
 
     #================================================================================
+
+
 # container_name: 컨테이너 고유 이름 (지정하지 않을 경우 자동 생성)
     # 고유값이므로 docker-compose.yml 파일을 복사하여 같은 호스트에서 실행할 경우 수정해야 한다.
     # 컨테이너 내부에서 다른 컨테이너의 컨테이너/서비스 이름을 모두 사용할 수 있으므로,
