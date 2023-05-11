@@ -263,7 +263,7 @@ zsh_install() {
                 shadow sudo usermod --shell $(which zsh) $USER
             fi
             log_info "The default shell changed to zsh."
-            log_info "This setting will not take effect until you log in again."
+            log_info "This setting will not take effect until you log-in again."
         fi
         echo
     fi
@@ -392,7 +392,7 @@ docker_install() {
         sudo usermod -aG docker $USER
         if grep -q docker /etc/group; then
             log_info "The current user has been added to the docker group."
-            log_info "This setting will not take effect until you log in again."
+            log_info "This setting will not take effect until you log-in again."
         fi
     fi
 }

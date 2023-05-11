@@ -11,9 +11,11 @@ service/mariadb/database/
 service/mariadb/init/**
 !service/mariadb/init/.gitkeep
 service/mariadb/config.env
-
-service/nginx/private
+service/nginx/private/
 service/nginx/helper/block
+
+service/uptime/
+!service/uptime/.gitkeep
 
 www/html/**
 !www/html/dump.php_

@@ -17,6 +17,7 @@ RUN sed -i 's/openssl/[ ! -f "${HOME}\/.vnc\/self.pem" ] \&\& openssl/' /dockers
 
 USER $USER
 
+
 # Install zsh and oh-my-zsh
 RUN set -ex; \
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --skip-chsh --unattended; \
@@ -27,7 +28,9 @@ RUN set -ex; \
 	sudo usermod --shell $(which zsh) $USER;
 	# groupadd sudo && usermod -aG sudo $USER;
 
+
 # RUN echo "exec zsh >> ~/.bashrc" >> /dockerstartup/vnc_startup.sh;
+
 
 # Add Nanum Font (Korean)
 RUN set -ex; \
