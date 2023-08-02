@@ -158,7 +158,7 @@ services:
     #================================================================================
 
     mosquitto: # https://hub.docker.com/_/eclipse-mosquitto
-        image: eclipse-mosquitto
+        build: mosquitto/docker
         restart: always
         ports:
             - 31883:1883 # for MQTT
