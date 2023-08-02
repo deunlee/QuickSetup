@@ -90,27 +90,27 @@ services:
 
     #================================================================================
 
-    # nodejs: # https://hub.docker.com/_/node
-        # build: docker/nodejs
-        # restart: always
-        # volumes:
-        #     - ./app:/app
-        # environment:
-        #     NODE_ENV: production
-        # env_file:
-        #     - ./docker/common.env
-        # working_dir: /app
-        # entrypoint: "npm run docker"
-        # user: 2000
+    nodejs: # https://hub.docker.com/_/node
+        build: nodejs/docker
+        restart: always
+        volumes:
+            - ./nodejs/app:/app
+        environment:
+            NODE_ENV: production
+        env_file:
+            - ./docker/common.env
+        working_dir: /app
+        entrypoint: "npm run docker"
+        user: 2000
         # help:
             # 노드 환경 변수는 상황에 맞게 production 또는 development로 변경한다.
 
 
     mongo: # https://hub.docker.com/_/mongo
-        build: docker/mongo
+        build: mongo/docker
         restart: always
         volumes:
-            - ./service/mongo:/data/db
+            - ./mongo/data:/data/db
         ports:
             - 27017:27017
         environment:
@@ -134,13 +134,14 @@ services:
             # ME_CONFIG_SITE_SSL_ENABLED: true
             # ME_CONFIG_SITE_SSL_CRT_PATH: ''
             # ME_CONFIG_SITE_SSL_KEY_PATH: ''
+
     #================================================================================
 
     uptime: # https://hub.docker.com/r/louislam/uptime-kuma
         image: louislam/uptime-kuma:1
         restart: always
         volumes:
-            - ./service/uptime:/app/data
+            - ./uptime:/app/data
         ports:
             - 3001:3001
 
