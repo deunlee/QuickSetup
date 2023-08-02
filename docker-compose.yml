@@ -97,13 +97,12 @@ services:
             - ./nodejs/app:/app
         environment:
             NODE_ENV: production
+            # NODE_ENV: development
         env_file:
             - ./docker/common.env
         working_dir: /app
         entrypoint: "npm run docker"
-        user: 2000
-        # help:
-            # 노드 환경 변수는 상황에 맞게 production 또는 development로 변경한다.
+        user: 1000:1000
 
 
     mongo: # https://hub.docker.com/_/mongo
@@ -141,7 +140,7 @@ services:
         image: louislam/uptime-kuma:1
         restart: always
         volumes:
-            - ./uptime:/app/data
+            - ./uptime/data:/app/data
         ports:
             - 3001:3001
 
