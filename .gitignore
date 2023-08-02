@@ -1,6 +1,6 @@
 asset/
 backup/
-log/
+log/*.log
 /*.ini
 
 service/certbot/**

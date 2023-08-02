@@ -157,6 +157,19 @@ services:
 
     #================================================================================
 
+    mosquitto: # https://hub.docker.com/_/eclipse-mosquitto
+        image: eclipse-mosquitto
+        restart: always
+        ports:
+            - 31883:1883 # for MQTT
+            - 39001:9001 # for WebSocket
+        volumes:
+            - ./mosquitto/config:/mosquitto/config
+            - ./mosquitto/data:/mosquitto/data
+            - ./mosquitto/log:/mosquitto/log
+
+    #================================================================================
+
 
 # container_name: 컨테이너 고유 이름 (지정하지 않을 경우 자동 생성)
     # 고유값이므로 docker-compose.yml 파일을 복사하여 같은 호스트에서 실행할 경우 수정해야 한다.
