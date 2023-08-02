@@ -13,9 +13,10 @@ chmod +x q.sh && ./q.sh
 
 ### Docker Compose with:
 - **Web & CMS:** `NGINX`, `PHP`, `MariaDB`, `Certbot`, `WordPress`, `phpMyAdmin`
-- **Development:** `Node.js`, `Python`, `MongoDB`
+- **Development:** `Python`, `Node.js`, `MongoDB`, `Mongo Express`
 - **Desktop:** `KasmVNC`, `Rocky Linux`, `Xfce`
 - **ETC:** `Guacamole`, `Uptime Kuma`, `HRConvert2`
+- **IoT:** `mosquitto`
 
 
 

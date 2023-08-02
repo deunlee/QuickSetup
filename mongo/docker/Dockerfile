@@ -1,6 +1,6 @@
 # https://hub.docker.com/_/mongo
 
-FROM mongo:5.0.16-focal
+FROM mongo:6.0
 
 # Add the main user with specific UID
 ARG USER=mongo

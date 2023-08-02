@@ -23,3 +23,4 @@ www/html/**
 !www/html/dump.php_
 !www/html/index.php
 !www/html/robots.txt
+distro.sh
