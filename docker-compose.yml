@@ -161,8 +161,8 @@ services:
         build: mosquitto/docker
         restart: always
         ports:
-            - 31883:1883 # for MQTT
-            - 39001:9001 # for WebSocket
+            - 1883:1883 # for MQTT
+            # - 9001:9001 # for WebSocket
         volumes:
             - ./mosquitto/config:/mosquitto/config
             - ./mosquitto/data:/mosquitto/data
