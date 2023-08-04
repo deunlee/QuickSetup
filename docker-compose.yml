@@ -99,7 +99,7 @@ services:
         env_file:
             - ./common.env
         working_dir: /app
-        entrypoint: "npm run docker"
+        entrypoint: "npm start" # "npm run docker"
         user: 1000:1000
 
 
