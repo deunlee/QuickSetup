@@ -18,8 +18,8 @@ services:
         # ports:
             # - 3306:3306
         env_file:
-            - ./docker/common.env
             - ./mariadb/config/config.env
+            - ./common.env
         # help:
             # 기본 데이터베이스명 및 계정 설정은 docker.env 파일에 저장한다.
                 # docker-sample.env 파일을 복사해서 수정할 것
@@ -41,7 +41,7 @@ services:
             - ./php/log:/var/log/php
             - ./www/html:/var/www/html
         env_file:
-            - ./docker/common.env
+            - ./common.env
         # help:
             # https://github.com/docker-library/docs/tree/master/php
 
@@ -63,7 +63,7 @@ services:
             - 80:80
             - 443:443
         env_file:
-            - ./docker/common.env
+            - ./common.env
         extra_hosts:
             - "host.docker.internal:host-gateway"
         # command: "/bin/sh -c 'while :; do sleep 48h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
@@ -97,7 +97,7 @@ services:
             NODE_ENV: production
             # NODE_ENV: development
         env_file:
-            - ./docker/common.env
+            - ./common.env
         working_dir: /app
         entrypoint: "npm run docker"
         user: 1000:1000
@@ -144,7 +144,7 @@ services:
 
 
     kasmweb: # https://hub.docker.com/r/kasmweb/rockylinux-9-desktop
-        build: docker/kasmweb
+        build: kasmweb/docker
         ports:
             - 6901:6901
         environment:
