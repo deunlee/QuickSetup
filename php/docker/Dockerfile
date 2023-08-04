@@ -99,7 +99,7 @@ RUN { \
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Add the main user with specific UID (Do NOT change user name)
+# Modify the UID and GID of the default user. (Do NOT change username.)
 ARG USER=www-data
 ARG UID=1000
 RUN sed -i -e "s/^\($USER:[^:]\):[0-9]*:[0-9]*:/\1:$UID:$UID:/" /etc/passwd && \

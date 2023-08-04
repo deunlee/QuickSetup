@@ -9,37 +9,37 @@ version: "3.7"
 services:
 
     mariadb: # https://hub.docker.com/_/mariadb
-        build: docker/mariadb
+        build: mariadb/docker
         restart: always
         volumes:
-            - ./service/mariadb/database:/var/lib/mysql
-            - ./service/mariadb/init:/docker-entrypoint-initdb.d:ro
-            - ./service/mariadb/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf:ro
+            - ./mariadb/config/init:/docker-entrypoint-initdb.d:ro
+            - ./mariadb/config/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf:ro
+            - ./mariadb/data:/var/lib/mysql
         # ports:
             # - 3306:3306
         env_file:
             - ./docker/common.env
-            - ./service/mariadb/config.env
+            - ./mariadb/config/config.env
         # help:
             # 기본 데이터베이스명 및 계정 설정은 docker.env 파일에 저장한다.
                 # docker-sample.env 파일을 복사해서 수정할 것
             # init 디렉터리에 있는 모든 .sql 파일은 컨테이너 최초 시작시 자동으로 import 된다.
-                # 컨테이너 최초 시작 여부는 ./service/mariab/database 하위의 mysql 디렉터리 존재 여부로 판단한다.
+                # 컨테이너 최초 시작 여부는 ./mariab/data 하위의 mysql 디렉터리 존재 여부로 판단한다.
                 # https://github.com/MariaDB/mariadb-docker/blob/master/10.6/docker-entrypoint.sh
             # 외부 접속을 허용하려면 ports 주석 해제
                 # 다른 컨테이너에서는 항상 접속할 수 있으므로 가능하다면 포트를 노출시키지 않는 것이 좋다.
 
 
     php: # https://hub.docker.com/_/php
-        build: docker/php
+        build: php/docker
         restart: always
         depends_on:
             - mariadb
         volumes:
-            - ./service/php/php.ini:/usr/local/etc/php/conf.d/zzz-override.ini:ro
-            - ./service/php/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-override.conf:ro
+            - ./php/config/php.ini:/usr/local/etc/php/conf.d/zzz-override.ini:ro
+            - ./php/config/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-override.conf:ro
+            - ./php/log:/var/log/php
             - ./www/html:/var/www/html
-            - ./log/php:/var/log/php
         env_file:
             - ./docker/common.env
         # help:
