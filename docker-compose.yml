@@ -165,6 +165,8 @@ services:
             - ./mosquitto/config:/mosquitto/config
             - ./mosquitto/data:/mosquitto/data
             - ./mosquitto/log:/mosquitto/log
+        env_file:
+            - ./common.env
 
     #================================================================================
 

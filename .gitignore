@@ -1,23 +1,24 @@
 asset/
 backup/
-log/*.log
 /*.ini
 
-service/certbot/**
-!service/certbot/options-ssl-nginx.conf
-!service/certbot/ssl-dhparams.pem
+certbot/data/
 
-service/mariadb/database/
-service/mariadb/init/**
-!service/mariadb/init/.gitkeep
-service/mariadb/config.env
-service/nginx/private/
-service/nginx/helper/block
+mariadb/config/init/
+mariadb/config/config.env
+mariadb/data/
 
-service/mongo/
-!service/mongo/.gitkeep
-service/uptime/
-!service/uptime/.gitkeep
+mongo/data/
+
+mosquitto/data/
+mosquitto/log/
+
+nginx/config/private/
+nginx/log/
+
+php/log/
+
+uptime/data/
 
 www/html/**
 !www/html/dump.php_
