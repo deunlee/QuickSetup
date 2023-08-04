@@ -11,15 +11,15 @@ services:
     mariadb: # https://hub.docker.com/_/mariadb
         build: mariadb/docker
         restart: always
+        # ports:
+            # - 3306:3306
         volumes:
             - ./mariadb/config/init:/docker-entrypoint-initdb.d:ro
             - ./mariadb/config/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf:ro
             - ./mariadb/data:/var/lib/mysql
-        # ports:
-            # - 3306:3306
         env_file:
             - ./mariadb/config/config.env
-            - ./common.env
+            - ./timezone.env
         # help:
             # 기본 데이터베이스명 및 계정 설정은 docker.env 파일에 저장한다.
                 # docker-sample.env 파일을 복사해서 수정할 것
@@ -41,7 +41,7 @@ services:
             - ./php/log:/var/log/php
             - ./www/html:/var/www/html
         env_file:
-            - ./common.env
+            - ./timezone.env
         # help:
             # https://github.com/docker-library/docs/tree/master/php
 
@@ -49,21 +49,21 @@ services:
     nginx: # https://hub.docker.com/_/nginx
         build: nginx/docker
         restart: always
+        ports:
+            - 80:80
+            - 443:443
         volumes:
             - ./nginx/config/helper:/etc/nginx/helper:ro
-            - ./nginx/config/private:/etc/nginx/private:ro
+            - ./nginx/config/private:/etc/nginx/private
             - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
             - ./nginx/config/sites-enabled:/etc/nginx/sites-enabled:ro
             - ./nginx/config/sites-available:/etc/nginx/sites-available:ro
             - ./nginx/log:/var/log/nginx
             - ./www/html:/var/www/html
-            # - ./certbot/config:/etc/letsencrypt:ro
-            # - ./certbot/data:/var/www/certbot:ro
-        ports:
-            - 80:80
-            - 443:443
+            # - ./certbot/data:/etc/letsencrypt:ro
+            # - ./certbot/www:/var/www/certbot:ro
         env_file:
-            - ./common.env
+            - ./timezone.env
         extra_hosts:
             - "host.docker.internal:host-gateway"
         # command: "/bin/sh -c 'while :; do sleep 48h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
@@ -78,10 +78,10 @@ services:
     # certbot: # https://hub.docker.com/r/certbot/certbot
         # image: certbot/certbot
         # volumes:
-        #     - ./service/certbot:/etc/letsencrypt
-        #     - ./www/certbot:/var/www/certbot
+        #     - ./certbot/data:/etc/letsencrypt
+        #     - ./certbot/www:/var/www/certbot
         # env_file:
-        #     - ./docker/common.env
+        #     - ./timezone.env
         # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 48h & wait $${!}; done;'"
         # help:
             # 초기 인증서 설정은 ./script/init_certbot.sh 스크립트 이용 (도메인 및 이메일 수정할 것)
@@ -97,7 +97,7 @@ services:
             NODE_ENV: production
             # NODE_ENV: development
         env_file:
-            - ./common.env
+            - ./timezone.env
         working_dir: /app
         entrypoint: "npm start" # "npm run docker"
         user: 1000:1000
@@ -106,10 +106,10 @@ services:
     mongo: # https://hub.docker.com/_/mongo
         build: mongo/docker
         restart: always
-        volumes:
-            - ./mongo/data:/data/db
         ports:
             - 27017:27017
+        volumes:
+            - ./mongo/data:/data/db
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: some-secure-password
@@ -137,10 +137,10 @@ services:
     uptime: # https://hub.docker.com/r/louislam/uptime-kuma
         image: louislam/uptime-kuma:1
         restart: always
-        volumes:
-            - ./uptime/data:/app/data
         ports:
             - 3001:3001
+        volumes:
+            - ./uptime/data:/app/data
 
 
     kasmweb: # https://hub.docker.com/r/kasmweb/rockylinux-9-desktop
@@ -166,10 +166,31 @@ services:
             - ./mosquitto/data:/mosquitto/data
             - ./mosquitto/log:/mosquitto/log
         env_file:
-            - ./common.env
+            - ./timezone.env
 
     #================================================================================
 
+
+    wireshark:
+        image: lscr.io/linuxserver/wireshark:latest
+        restart: unless-stopped
+        ports:
+            - 3000:3000 # optional
+            - 3001:3001 # optional
+        volumes:
+            - /wireshark/config:/config
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - CUSTOM_USER=user
+            - PASSWORD=1q2w3e4r
+        env_file:
+            - ./timezone.env
+        cap_add:
+            - NET_ADMIN
+        security_opt:
+            - seccomp:unconfined # optional
+        network_mode: host
 
 # container_name: 컨테이너 고유 이름 (지정하지 않을 경우 자동 생성)
     # 고유값이므로 docker-compose.yml 파일을 복사하여 같은 호스트에서 실행할 경우 수정해야 한다.
