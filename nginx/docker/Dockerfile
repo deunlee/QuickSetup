@@ -1,12 +1,12 @@
 # https://hub.docker.com/_/nginx
 
-FROM nginx:1.23.4-alpine
+FROM nginx:1.25-alpine
 
 RUN apk add --no-cache \
 		bash \
 		openssl
 
-# Add the main user with specific UID
+# Modify the UID and GID of the default user.
 ARG USER=nginx
 ARG UID=1000
 RUN sed -i -e "s/^\($USER:[^:]\):[0-9]*:[0-9]*:/\1:$UID:$UID:/" /etc/passwd && \
