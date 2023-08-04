@@ -90,7 +90,7 @@ services:
 
     nodejs: # https://hub.docker.com/_/node
         build: nodejs/docker
-        restart: always
+        # restart: always
         volumes:
             - ./nodejs/app:/app
         environment:
