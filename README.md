@@ -7,7 +7,7 @@
 - **Development:** `git`, `gcc`, `code-server`
 - **Container:** `docker`, `docker compose`
 
-```sh
+```
 curl -o q.sh https://raw.githubusercontent.com/deunlee/QuickSetup/main/script/quick.sh
 chmod +x q.sh && ./q.sh
 ```
@@ -21,7 +21,7 @@ chmod +x q.sh && ./q.sh
 - **Desktop:** `KasmVNC`, `Rocky Linux`, `Xfce`
 - **ETC:** `RustDesk`, `Guacamole`, `HRConvert2`
 
-```sh
+```
 git clone https://github.com/deunlee/QuickSetup server
 cd server
 ./script/init.sh
