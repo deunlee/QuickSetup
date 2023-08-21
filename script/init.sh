@@ -1,22 +1,15 @@
 #!/usr/bin/env bash
 
 # https://wordpress.org/download/releases/
-WORDPRESS_VERSION="6.2"
+WORDPRESS_VERSION="6.3"
 # https://www.phpmyadmin.net/downloads/
 PHP_MY_ADMIN_VERSION="5.2.1"
 
 ################################################################################
 
-PATH_BACKUP="./backup"
-PATH_LOG="./log"
-PATH_SVC="./service"
 PATH_ASSET="./www/asset"
 PATH_HTML="./www/html"
 
-mkdir -p "$PATH_LOG/nginx"
-mkdir -p "$PATH_LOG/php"
-mkdir -p "$PATH_SVC/mariadb/database"
-mkdir -p "$PATH_SVC/mariadb/init"
 mkdir -p "$PATH_ASSET"
 mkdir -p "$PATH_HTML"
 
@@ -98,13 +91,15 @@ check_docker() {
 
 ################################################################################
 
+MARIADB_CONFIG_FILE="./mariadb/config/config.env"
+MARIADB_CONFIG_SAMPLE_FILE="./mariadb/config/config-sample.env"
+
 init_mariadb() {
-    DB_CONFIG="$PATH_SVC/mariadb/config.env"
-    if [ ! -e "$DB_CONFIG" ]; then
+    if [ ! -e "$MARIADB_CONFIG_FILE" ]; then
         log_info "Creating MariaDB config file..."
-        cp "$PATH_SVC/mariadb/config-sample.env" "$DB_CONFIG"
-        sed -i -e "s/MYSQL_ROOT_PASSWORD=.*/MYSQL_ROOT_PASSWORD=$(get_random_string)/" "$DB_CONFIG"
-        sed -i -e "s/MYSQL_PASSWORD=.*/MYSQL_PASSWORD=$(get_random_string)/" "$DB_CONFIG"
+        cp "$MARIADB_CONFIG_SAMPLE_FILE" "$MARIADB_CONFIG_FILE"
+        sed -i -e "s/MYSQL_ROOT_PASSWORD=.*/MYSQL_ROOT_PASSWORD=$(get_random_string)/" "$MARIADB_CONFIG_FILE"
+        sed -i -e "s/MYSQL_PASSWORD=.*/MYSQL_PASSWORD=$(get_random_string)/" "$MARIADB_CONFIG_FILE"
     fi
 }
 
@@ -112,7 +107,7 @@ init_mariadb() {
 
 init_nginx() {
     # Generate default certificate.
-    CERT_PATH="$PATH_SVC/nginx/private"
+    CERT_PATH="./nginx/config/private"
     CERT_FILE="$CERT_PATH/default.pem"
     CERT_KEY="$CERT_PATH/default.key"
     mkdir -p "$CERT_PATH"
@@ -195,12 +190,11 @@ install_wordpress() {
     mv "$PATH_ASSET/wordpress" "$WP_PATH"
 
     # Update the config file.
-    DB_CONFIG="$PATH_SVC/mariadb/config.env"
     WP_CONFIG="$WP_PATH/wp-config.php"
     cp "$WP_PATH/wp-config-sample.php" "$WP_CONFIG"
-    sed -i "s/database_name_here/$(. $DB_CONFIG; echo $MYSQL_DATABASE)/" "$WP_CONFIG"
-    sed -i "s/username_here/$(. $DB_CONFIG; echo $MYSQL_USER)/" "$WP_CONFIG"
-    sed -i "s/password_here/$(. $DB_CONFIG; echo $MYSQL_PASSWORD)/" "$WP_CONFIG"
+    sed -i "s/database_name_here/$(. $MARIADB_CONFIG_FILE; echo $MYSQL_DATABASE)/" "$WP_CONFIG"
+    sed -i "s/username_here/$(. $MARIADB_CONFIG_FILE; echo $MYSQL_USER)/" "$WP_CONFIG"
+    sed -i "s/password_here/$(. $MARIADB_CONFIG_FILE; echo $MYSQL_PASSWORD)/" "$WP_CONFIG"
     sed -i "s/localhost/mariadb/" "$WP_CONFIG"
     get_wp_random() {
         echo "$(cat /dev/urandom | tr -dc 'a-zA-Z0-9!@#\%+=' | fold -w 64 | sed 1q)"
@@ -218,8 +212,8 @@ install_wordpress() {
         echo -en "\033[1;36m[CHECK]\033[0m " 1>&2
         read -p "Enter your domain name (test.lan): " NG_DOMAIN
         NG_DOMAIN=${NG_DOMAIN:-test.lan}
-        NG_DEFAULT="$PATH_SVC/nginx/sites-available/your.domain.com.conf"
-        NG_CONFIG="$PATH_SVC/nginx/sites-enabled/$NG_DOMAIN.conf"
+        NG_DEFAULT="./nginx/config/sites-available/your.domain.com.conf"
+        NG_CONFIG="./nginx/config/sites-enabled/$NG_DOMAIN.conf"
         cp "$NG_DEFAULT" "$NG_CONFIG"
         sed -i "s/private\/your.domain.com/private\/default/" "$NG_CONFIG"
         sed -i "s/your.domain.com/$NG_DOMAIN/" "$NG_CONFIG"
@@ -232,7 +226,7 @@ install_wordpress() {
 
 main() {
     echo "========================================"
-    echo ">>> Docker Server Init Script (V.1.3.3)"
+    echo ">>> Docker Server Init Script (V.1.3.4)"
     echo "========================================"
     echo
 
