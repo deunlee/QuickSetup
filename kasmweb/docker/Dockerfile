@@ -2,6 +2,7 @@
 
 FROM kasmweb/rockylinux-9-desktop:1.13.0
 
+# Default User
 ARG USER=kasm-user
 
 

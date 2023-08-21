@@ -90,7 +90,7 @@ services:
 
     nodejs: # https://hub.docker.com/_/node
         build: nodejs/docker
-        # restart: always
+        restart: on-failure # always, unless-stopped
         volumes:
             - ./nodejs/app:/app
         environment:
@@ -143,15 +143,15 @@ services:
             - ./uptime/data:/app/data
 
 
-    kasmweb: # https://hub.docker.com/r/kasmweb/rockylinux-9-desktop
-        build: kasmweb/docker
-        ports:
-            - 6901:6901
-        environment:
-            - VNC_PW=12341234
-            # Web VNC User: kasm_user
-            # Linux User  : kasm-user
-        shm_size: 1G # (default: 512m)
+    # kasmweb: # https://hub.docker.com/r/kasmweb/rockylinux-9-desktop
+    #     build: kasmweb/docker
+    #     ports:
+    #         - 6901:6901
+    #     environment:
+    #         - VNC_PW=12341234
+    #         # Web VNC User: kasm_user
+    #         # Linux User  : kasm-user
+    #     shm_size: 1G # (default: 512m)
 
     #================================================================================
 
@@ -167,6 +167,14 @@ services:
             - ./mosquitto/log:/mosquitto/log
         env_file:
             - ./timezone.env
+
+    # espidf: # https://hub.docker.com/r/espressif/idf
+    #     image: espressif/idf:v4.4.5
+    #     volumes:
+    #         - ./espidf/data:/project
+    #     working_dir: /project
+    #     # /opt/esp/idf/components/espcoredump/espcoredump.py
+    #     # docker compose run espidf espcoredump.py info_corefile -c coredump.raw -t raw -rom-elf firmware.elf
 
     #================================================================================
 
