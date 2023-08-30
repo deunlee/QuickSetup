@@ -12,22 +12,18 @@ services:
         build: mariadb/docker
         restart: always
         # ports:
-            # - 3306:3306
+            # - 53306:3306
         volumes:
             - ./mariadb/config/init:/docker-entrypoint-initdb.d:ro
             - ./mariadb/config/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf:ro
             - ./mariadb/data:/var/lib/mysql
         env_file:
-            - ./mariadb/config/config.env
+            - ./mariadb/config/config.env # 데이터베이스명 및 사용자 설정
             - ./timezone.env
         # help:
-            # 기본 데이터베이스명 및 계정 설정은 docker.env 파일에 저장한다.
-                # docker-sample.env 파일을 복사해서 수정할 것
             # init 디렉터리에 있는 모든 .sql 파일은 컨테이너 최초 시작시 자동으로 import 된다.
                 # 컨테이너 최초 시작 여부는 ./mariab/data 하위의 mysql 디렉터리 존재 여부로 판단한다.
                 # https://github.com/MariaDB/mariadb-docker/blob/master/10.6/docker-entrypoint.sh
-            # 외부 접속을 허용하려면 ports 주석 해제
-                # 다른 컨테이너에서는 항상 접속할 수 있으므로 가능하다면 포트를 노출시키지 않는 것이 좋다.
 
 
     php: # https://hub.docker.com/_/php
@@ -67,18 +63,13 @@ services:
         extra_hosts:
             - "host.docker.internal:host-gateway"
         # command: "/bin/sh -c 'while :; do sleep 48h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
-        # help:
-            # 설정 파일 다시 로드 :
-                # docker compose exec nginx nginx -s reload
-            # Certbot 연동 :
-                # command 주석 해제 (48시간마다 설정 및 인증서를 다시 로드한다.)
-                # volumes에서 Certbot 관련 디렉터리를 마운트한다.
 
 
     # certbot: # https://hub.docker.com/r/certbot/certbot
         # image: certbot/certbot
         # volumes:
         #     - ./certbot/data:/etc/letsencrypt
+        #     - ./certbot/log:/var/log/letsencrypt
         #     - ./certbot/www:/var/www/certbot
         # env_file:
         #     - ./timezone.env
@@ -214,4 +205,5 @@ services:
 
 # ports vs. expose:
     # ports  : 컨테이너 포트를 호스트에 매핑하여 노출시킴 (호스트:컨테이너)
+    #          이 값을 설정하지 않아도 다른 컨테이너에서는 항상 접속할 수 있다.
     # expose : 다른 컨테이너에게 포트를 노출시킴 (호스트에는 노출되지 않음)

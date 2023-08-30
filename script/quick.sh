@@ -463,12 +463,13 @@ ms-vscode.cpptools
 editorconfig.editorconfig
 
 ################## Tool ###################
-mhutchie.git-graph
-tomoki1207.pdf
+wayou.vscode-todo-highlight
 tyriar.sort-lines
+mhutchie.git-graph
+# tomoki1207.pdf
 
 ############### JavaScript ################
-# dbaeumer.vscode-eslint
+dbaeumer.vscode-eslint
 # vue.volar
 
 ################# Python ##################
@@ -506,6 +507,7 @@ EOT
     "editor.fontFamily": "D2Coding, Consolas, Hack, 'Malgun Gothic', monospace",
     "editor.fontSize": 15,
     "editor.rulers": [120],
+    "editor.guides.bracketPairs": true,
     "workbench.colorTheme": "Default Dark+",
     "workbench.iconTheme": "vscode-icons",
     "workbench.tree.indent": 16,

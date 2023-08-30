@@ -6,9 +6,9 @@ if ! [ -x "$(command -v docker compose)" ]; then
 fi
 
 # domains=(example.org www.example.org)
-domains="<your-domain>" 
+domains="<your-domain>"
 rsa_key_size=2048
-data_path="./service/certbot"
+data_path="./certbot/data"
 email="<your-email>" # Adding a valid address is strongly recommended
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
 
@@ -18,7 +18,7 @@ staging=0 # Set to 1 if you're testing your setup to avoid hitting request limit
 #     exit
 #   fi
 # fi
-# 
+#
 # if [ ! -e "$data_path/options-ssl-nginx.conf" ] || [ ! -e "$data_path/ssl-dhparams.pem" ]; then
 #   echo "### Downloading recommended TLS parameters ..."
 #   mkdir -p "$data_path/conf"
