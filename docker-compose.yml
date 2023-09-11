@@ -150,15 +150,21 @@ services:
         image: thingsboard/tb-postgres
         restart: always
         ports:
-            - 8080:9090
-            - 1883:1883
-            - 7070:7070
-            - 5683-5688:5683-5688/udp
+            - 9090:9090 # HTTP
+            - 1883:1883 # MQTT
+            - 7070:7070 # Edge RPC
+            - 5683-5688:5683-5688/udp # CoAP and LwM2M
         volumes:
             - ./thingsboard/data:/data
             - ./thingsboard/log:/var/log/thingsboard
+            # sudo chown -R 799:799 ./thingsboard/data
+            # sudo chown -R 799:799 ./thingsboard/log
         environment:
             TB_QUEUE_TYPE: in-memory
+        # Default Credentials:
+            # System Admin  : sysadmin@thingsboard.org / sysadmin
+            # Tenant Admin  : tenant@thingsboard.org   / tenant
+            # Customer User : customer@thingsboard.org / customer
 
 
     mosquitto: # https://hub.docker.com/_/eclipse-mosquitto
@@ -185,26 +191,29 @@ services:
     #================================================================================
 
 
-    wireshark:
-        image: lscr.io/linuxserver/wireshark:latest
-        restart: unless-stopped
-        ports:
-            - 3000:3000 # optional
-            - 3001:3001 # optional
-        volumes:
-            - /wireshark/config:/config
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - CUSTOM_USER=user
-            - PASSWORD=1q2w3e4r
-        env_file:
-            - ./timezone.env
-        cap_add:
-            - NET_ADMIN
-        security_opt:
-            - seccomp:unconfined # optional
-        network_mode: host
+    # wireshark:
+    #     image: lscr.io/linuxserver/wireshark:latest
+    #     restart: unless-stopped
+    #     ports:
+    #         - 3000:3000 # optional
+    #         - 3001:3001 # optional
+    #     volumes:
+    #         - /wireshark/config:/config
+    #     environment:
+    #         - PUID=1000
+    #         - PGID=1000
+    #         - CUSTOM_USER=user
+    #         - PASSWORD=1q2w3e4r
+    #     env_file:
+    #         - ./timezone.env
+    #     cap_add:
+    #         - NET_ADMIN
+    #     security_opt:
+    #         - seccomp:unconfined # optional
+    #     network_mode: host
+
+
+
 
 
 # container_name: 컨테이너 고유 이름 (지정하지 않을 경우 자동 생성)
