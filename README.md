@@ -17,7 +17,7 @@ chmod +x q.sh && ./q.sh
 - **Database:** `MariaDB`, `phpMyAdmin`, `MongoDB`, `Mongo Express`, `InfluxDB`
 - **Development:** `Python`, `Node.js`, `Java`
 - **Monitoring:** `Uptime Kuma`, `Grafana`
-- **IoT:** `mosquitto`, `ESP-IDF`
+- **IoT:** `ThingsBoard`, `mosquitto`, `ESP-IDF`
 - **Desktop:** `KasmVNC`, `Rocky Linux`, `Xfce`
 - **ETC:** `RustDesk`, `Guacamole`, `HRConvert2`
 
@@ -29,6 +29,8 @@ docker compose build
 docker compsoe up
 ```
 
+<!-- git config --local user.name "TEST" -->
+<!-- git config --local user.email "test@test.com" -->
 
 
 
