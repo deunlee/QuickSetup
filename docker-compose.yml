@@ -146,6 +146,21 @@ services:
 
     #================================================================================
 
+    thingsboard: # https://hub.docker.com/r/thingsboard/tb-postgres
+        image: thingsboard/tb-postgres
+        restart: always
+        ports:
+            - 8080:9090
+            - 1883:1883
+            - 7070:7070
+            - 5683-5688:5683-5688/udp
+        volumes:
+            - ./thingsboard/data:/data
+            - ./thingsboard/log:/var/log/thingsboard
+        environment:
+            TB_QUEUE_TYPE: in-memory
+
+
     mosquitto: # https://hub.docker.com/_/eclipse-mosquitto
         build: mosquitto/docker
         restart: always
