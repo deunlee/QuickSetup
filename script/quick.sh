@@ -401,14 +401,14 @@ docker_install() {
     fi
 }
 
-DOCKER_COMPOSE_VERSION="2.17.2"
+DOCKER_COMPOSE_VERSION="2.22.0"
+# https://github.com/docker/compose/releases
 
 compose_check()   { [ -e ~/.docker/cli-plugins ]; }
 compose_version() { docker compose version; }
 compose_install() {
     check docker || return 1 # docker is not installed
 
-    # https://github.com/docker/compose/releases
     mkdir -p ~/.docker/cli-plugins/
     URL="https://github.com/docker/compose/releases/download/v$DOCKER_COMPOSE_VERSION/docker-compose-linux-$(uname -m)"
     SAVE=~/.docker/cli-plugins/docker-compose
@@ -518,9 +518,48 @@ EOT
 
 ################################################################################
 
+set_timezone() {
+    DEFAULT_TIMEZONE="Asia/Seoul"
+    CURRENT_TIMEZONE="$(timedatectl | grep "Time zone: " | cut -d ":" -f 2 | cut -d " " -f 2)"
+    if [ "$CURRENT_TIMEZONE" != "$DEFAULT_TIMEZONE" ] && [ $(confirm "Do you want to change timezone to KST?" "n") = "y" ]; then
+        sudo timedatectl set-timezone "$DEFAULT_TIMEZONE"
+        shadow timedatectl
+        echo
+        shadow date
+        echo
+    fi
+}
+
+set_hostname() {
+    # sudo hostnamectl set-hostname <new-hostname>
+}
+
+disable_default_firewall() {
+    # Tested in Rocky Linux 9.1
+    if is_service_running firewalld ; then
+        if [ $(confirm "Do you want to disable the firewalld?" "y") = "y" ]; then
+            sudo systemctl stop firewalld
+            shadow sudo systemctl disable firewalld
+            shadow sudo systemctl status firewalld --no-pager
+            echo
+        fi
+    fi
+
+    if is_service_running ufw ; then
+        if [ $(confirm "Do you want to disable the ufw?" "y") = "y" ]; then
+            shadow sudo ufw status
+            shadow sudo ufw disable
+            shadow sudo ufw status
+            echo
+        fi
+    fi
+}
+
+################################################################################
+
 main() {
     echo "=================================================="
-    echo "===   DeunLee's Quick Setup Script (V.1.4.2)   ==="
+    echo "===   DeunLee's Quick Setup Script (V.1.5.0)   ==="
     echo "=================================================="
     echo
 
@@ -529,28 +568,19 @@ main() {
     echo
 
     if [ "$USER" = "root" ]; then
-        log_warn "Current user is root."
-        log_warn "It is recommended to change to another user."
+        log_warn "Current user is the root. It's recommended to change to another user."
         if [ $(confirm "Do you want to continue?" "n") = "n" ]; then
             exit
         fi
     fi
 
-    # Tested in Rocky Linux 9.1
-    if is_service_running firewalld ; then
-        if [ $(confirm "Do you want to disable firewalld?" "y") = "y" ]; then
-            sudo systemctl stop firewalld
-            shadow sudo systemctl disable firewalld
-            shadow sudo systemctl status firewalld --no-pager
-            echo
-        fi
-    fi
-    # sudo ufw status
-    # sudo ufw disable
-
+    set_timezone
+    set_hostname
+    disable_default_firewall
     clear_cache
 
     install_package "htop"
+    install_package "btop"
     install_package "wget"
     install_package "zip"
     install_package "git"

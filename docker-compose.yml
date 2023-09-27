@@ -22,11 +22,12 @@ services:
             - ./timezone.env
         # help:
             # init 디렉터리에 있는 모든 .sql 파일은 컨테이너 최초 시작시 자동으로 import 된다.
-                # 컨테이너 최초 시작 여부는 ./mariab/data 하위의 mysql 디렉터리 존재 여부로 판단한다.
-                # https://github.com/MariaDB/mariadb-docker/blob/master/10.6/docker-entrypoint.sh
+            # 컨테이너 최초 시작 여부는 ./mariab/data 하위의 mysql 디렉터리 존재 여부로 판단한다.
+            # https://github.com/MariaDB/mariadb-docker/blob/master/10.6/docker-entrypoint.sh
 
 
     php: # https://hub.docker.com/_/php
+        # https://github.com/docker-library/docs/tree/master/php
         build: php/docker
         restart: always
         depends_on:
@@ -38,8 +39,6 @@ services:
             - ./www/html:/var/www/html
         env_file:
             - ./timezone.env
-        # help:
-            # https://github.com/docker-library/docs/tree/master/php
 
 
     nginx: # https://hub.docker.com/_/nginx
@@ -153,7 +152,7 @@ services:
             - 9090:9090 # HTTP
             - 1883:1883 # MQTT
             - 7070:7070 # Edge RPC
-            - 5683-5688:5683-5688/udp # CoAP and LwM2M
+            # - 5683-5688:5683-5688/udp # CoAP and LwM2M
         volumes:
             - ./thingsboard/data:/data
             - ./thingsboard/log:/var/log/thingsboard
@@ -211,6 +210,10 @@ services:
     #     security_opt:
     #         - seccomp:unconfined # optional
     #     network_mode: host
+
+
+
+
 
 
 
