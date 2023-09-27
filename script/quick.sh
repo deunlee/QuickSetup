@@ -519,6 +519,7 @@ EOT
 ################################################################################
 
 set_timezone() {
+    # Tested in Rocky Linux 9.1
     DEFAULT_TIMEZONE="Asia/Seoul"
     CURRENT_TIMEZONE="$(timedatectl | grep "Time zone: " | cut -d ":" -f 2 | cut -d " " -f 2)"
     if [ "$CURRENT_TIMEZONE" != "$DEFAULT_TIMEZONE" ] && [ $(confirm "Do you want to change timezone to KST?" "n") = "y" ]; then
@@ -530,9 +531,9 @@ set_timezone() {
     fi
 }
 
-set_hostname() {
+# set_hostname() {
     # sudo hostnamectl set-hostname <new-hostname>
-}
+# }
 
 disable_default_firewall() {
     # Tested in Rocky Linux 9.1
@@ -575,7 +576,7 @@ main() {
     fi
 
     set_timezone
-    set_hostname
+    # set_hostname
     disable_default_firewall
     clear_cache
 
