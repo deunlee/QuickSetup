@@ -2,8 +2,8 @@
 
 
 ### Tools:
-- **System:** `htop`, `wget`, `zip`, `vim`, `zsh`, `oh-my-zsh`, `neofetch`
-- **Network:** `net-tools`, `tcpdump`
+- **System:** `htop`, `btop`, `wget`, `zip`, `vim`, `zsh`, `oh-my-zsh`, `neofetch`
+- **Network:** `net-tools`, `tcpdump`, `nmap`
 - **Development:** `git`, `gcc`, `code-server`
 - **Container:** `docker`, `docker compose`
 
@@ -15,7 +15,7 @@ chmod +x q.sh && ./q.sh
 ### Docker Compose with:
 - **Web & CMS:** `NGINX`, `PHP`, `Certbot`, `WordPress`
 - **Database:** `MariaDB`, `phpMyAdmin`, `MongoDB`, `Mongo Express`, `InfluxDB`
-- **Development:** `Python`, `Node.js`, `Java`
+- **Development:** `Python`, `Node.js`, `Java JDK`
 - **Monitoring:** `Uptime Kuma`, `Grafana`
 - **IoT:** `ThingsBoard`, `mosquitto`, `ESP-IDF`
 - **Desktop:** `KasmVNC`, `Rocky Linux`, `Xfce`
@@ -29,8 +29,11 @@ docker compose build
 docker compsoe up
 ```
 
-<!-- git config --local user.name "TEST" -->
-<!-- git config --local user.email "test@test.com" -->
+<!--
+git config --local user.name "TEST"
+git config --local user.email "test@test.com"
+-->
+
 
 
 

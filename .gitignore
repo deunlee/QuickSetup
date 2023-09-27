@@ -3,6 +3,7 @@ backup/
 /*.ini
 
 certbot/data/
+certbot/log/
 
 mariadb/config/init/
 mariadb/config/config.env

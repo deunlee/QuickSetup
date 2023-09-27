@@ -51,15 +51,16 @@ is_service_enabled() {
 ################################################################################
 
 dump_mariadb() {
-    DB_DIR="./service/mariadb/init"
+    DB_DIR="./mariadb/config/init"
     DB_FILE="$DB_DIR/backup_$START_TIME.sql"
     mkdir -p "$DB_DIR"
     rm -f "$DB_DIR"/backup*.sql
 
     log_info "Dumping the mariadb database..."
     docker compose exec mariadb \
-        sh -c 'exec mysqldump --databases "$MYSQL_DATABASE" -uroot -p"$MYSQL_ROOT_PASSWORD" --skip-extended-insert' \
+        sh -c 'exec mariadb-dump --databases "$MYSQL_DATABASE" -uroot -p"$MYSQL_ROOT_PASSWORD" --skip-extended-insert' \
         > "$DB_FILE"
+    # From MariaDB 11.0.1, mysqldump symlink is removed from the mariadb Docker Image. Use mariadb-dump instead.
 
     if [ $? -ne 0 ]; then
         rm "$DB_FILE"
@@ -74,7 +75,7 @@ dump_mariadb() {
 
 main() {
     echo "========================================"
-    echo ">>> Docker Backup Script (v.1.1.0)"
+    echo ">>> Docker Backup Script (V.1.1.1)"
     echo "========================================"
     echo
 
@@ -89,13 +90,13 @@ main() {
     log_info "Output Path : $BACKUP_FILE"
     echo
 
-    if is_service_enabled "mariadb"; then 
+    if is_service_enabled "mariadb"; then
         dump_mariadb
     fi
 
     log_info "Compressing all files..."
-    tar --exclude='./backup' \
-        --exclude='./service/mariadb/database' \
+    sudo tar --exclude='./backup' \
+        --exclude='./mariadb/data' \
         -cf "$BACKUP_FILE" .
         # -zcf "$BACKUP_FILE" .
 

@@ -44,6 +44,8 @@ services:
     nginx: # https://hub.docker.com/_/nginx
         build: nginx/docker
         restart: always
+        depends_on:
+            - php
         ports:
             - 80:80
             - 443:443
@@ -61,7 +63,7 @@ services:
             - ./timezone.env
         extra_hosts:
             - "host.docker.internal:host-gateway"
-        # command: "/bin/sh -c 'while :; do sleep 48h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+        # command: "/bin/sh -c 'while :; do sleep 72h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
 
     # certbot: # https://hub.docker.com/r/certbot/certbot
@@ -72,9 +74,8 @@ services:
         #     - ./certbot/www:/var/www/certbot
         # env_file:
         #     - ./timezone.env
-        # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 48h & wait $${!}; done;'"
-        # help:
-            # 초기 인증서 설정은 ./script/init_certbot.sh 스크립트 이용 (도메인 및 이메일 수정할 것)
+        # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 72h & wait $${!}; done;'"
+        # 초기 인증서 설정은 ./script/init_certbot.sh 스크립트 이용 (도메인 및 이메일 수정)
 
     #================================================================================
 
@@ -178,6 +179,7 @@ services:
             - ./mosquitto/log:/mosquitto/log
         env_file:
             - ./timezone.env
+
 
     # espidf: # https://hub.docker.com/r/espressif/idf
     #     image: espressif/idf:v4.4.5
