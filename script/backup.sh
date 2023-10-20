@@ -4,7 +4,7 @@ START_TIME="$(date '+%y%m%d_%H%M%S')"
 UNIT_NAME="$(basename "$(pwd)")"
 
 BACKUP_DIR="./backup"
-BACKUP_FILE="$BACKUP_DIR/${UNIT_NAME}_${START_TIME}.tgz"
+BACKUP_FILE="$BACKUP_DIR/$(hostname)_${UNIT_NAME}_${START_TIME}.tgz"
 mkdir -p "$BACKUP_DIR"
 
 log_info()  { echo -e "\033[1;32m[INFO]\033[0m $*"  ; }
@@ -75,7 +75,7 @@ dump_mariadb() {
 
 main() {
     echo "========================================"
-    echo ">>> Docker Backup Script (V.1.1.1)"
+    echo ">>> Docker Backup Script (V.1.1.2)"
     echo "========================================"
     echo
 

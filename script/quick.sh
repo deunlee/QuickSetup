@@ -312,6 +312,7 @@ alias h='  history'
 alias hs=' history | grep'
 alias hsi='history | grep -i'
 alias dcache='echo 3 | sudo tee /proc/sys/vm/drop_caches'
+alias dswap='sudo swapoff -a; sudo swapon -a'
 # alias userinfo='sudo tail -n 3 /etc/passwd && echo && sudo tail -n 3 /etc/shadow && echo && sudo tail -n 3 /etc/group && echo && sudo tail -n 3 /etc/gshadow'
 
 alias gl='   git log --oneline --graph --decorate'

@@ -2,22 +2,22 @@ asset/
 backup/
 /*.ini
 
-certbot/data/
-certbot/log/
-
 mariadb/config/init/
 mariadb/config/config.env
 mariadb/data/
-
-mongo/data/
-
-mosquitto/data/
-mosquitto/log/
 
 nginx/config/private/
 nginx/log/
 
 php/log/
+
+certbot/data/
+certbot/log/
+
+mongo/data/
+
+mosquitto/data/
+mosquitto/log/
 
 uptime/data/
 
