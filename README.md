@@ -13,13 +13,14 @@ chmod +x q.sh && ./q.sh
 ```
 
 ### Docker Compose with:
-- **Web & CMS:** `NGINX`, `PHP`, `Certbot`, `WordPress`
-- **Database:** `MariaDB`, `phpMyAdmin`, `MongoDB`, `Mongo Express`, `InfluxDB`
-- **Development:** `Python`, `Node.js`, `Java JDK`
-- **Monitoring:** `Uptime Kuma`, `Grafana`
-- **IoT:** `ThingsBoard`, `mosquitto`, `ESP-IDF`
-- **Desktop:** `KasmVNC`, `Rocky Linux`, `Xfce`
-- **ETC:** `RustDesk`, `Guacamole`, `HRConvert2`
+- **Web & CMS:** NGINX, PHP, Certbot, WordPress
+- **Database:** MariaDB (+phpMyAdmin), PostgreSQL, MongoDB (+Mongo Express), InfluxDB
+- **Development:** Python, Node.js, Java JDK
+- **Monitoring:** Uptime Kuma, Grafana
+- **IoT:** ThingsBoard, mosquitto, ESP-IDF
+- **Desktop:** KasmVNC, Rocky Linux, Xfce
+- **Remote:** Guacamole (+Guacd, PostgreSQL)
+- **ETC:** RustDesk, HRConvert2
 
 ```
 git clone https://github.com/deunlee/QuickSetup server
