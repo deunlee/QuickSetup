@@ -134,6 +134,37 @@ services:
             - ./uptime/data:/app/data
 
 
+    postgres: # https://hub.docker.com/_/postgres
+        image: postgres:16.0-alpine3.18
+        restart: always
+        volumes:
+            - ./guacamole/config/init:/docker-entrypoint-initdb.d:ro
+            - ./guacamole/data/postgres:/var/lib/postgresql/data
+        env_file:
+            - ./guacamole/config/config.env # 데이터베이스명 및 사용자 설정
+
+    guacd:
+        image: guacamole/guacd
+        restart: always
+        volumes:
+            - ./guacamole/data/drive:/drive
+            - ./guacamole/data/record:/record
+
+    guacamole:
+        image: guacamole/guacamole
+        restart: always
+        depends_on:
+            - guacd
+            - postgres
+        environment:
+            GUACD_HOSTNAME: guacd
+            POSTGRES_HOSTNAME: postgres
+        env_file:
+            - ./guacamole/config/config.env # 데이터베이스명 및 사용자 설정
+        ports:
+            - 8081:8080  # Guacamole is on "/guacamole", not "/".
+
+
     # kasmweb: # https://hub.docker.com/r/kasmweb/rockylinux-9-desktop
     #     build: kasmweb/docker
     #     ports:
