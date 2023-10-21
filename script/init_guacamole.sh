@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-mkdir -p ./guacamole/config/init
-chmod -R +x ./guacamole/data/init
-docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --postgresql > ./guacamole/data/init/initdb.sql
+INIT_DIR="./guacamole/config/init"
 
+mkdir -p "$INIT_DIR"
+chmod -R +x "$INIT_DIR"
+docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --postgresql > "$INIT_DIR/initdb.sql"

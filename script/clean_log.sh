@@ -1,2 +1,4 @@
-cat /dev/null > ./log/nginx/access.log
-cat /dev/null > ./log/nginx/error.log
+#!/bin/bash
+
+sudo cat /dev/null > ./nginx/log/access.log
+sudo cat /dev/null > ./nginx/log/error.log

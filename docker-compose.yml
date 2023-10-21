@@ -134,23 +134,8 @@ services:
             - ./uptime/data:/app/data
 
 
-    postgres: # https://hub.docker.com/_/postgres
-        image: postgres:16.0-alpine3.18
-        restart: always
-        volumes:
-            - ./guacamole/config/init:/docker-entrypoint-initdb.d:ro
-            - ./guacamole/data/postgres:/var/lib/postgresql/data
-        env_file:
-            - ./guacamole/config/config.env # 데이터베이스명 및 사용자 설정
-
-    guacd:
-        image: guacamole/guacd
-        restart: always
-        volumes:
-            - ./guacamole/data/drive:/drive
-            - ./guacamole/data/record:/record
-
     guacamole:
+        # https://github.com/boschkundendienst/guacamole-docker-compose
         image: guacamole/guacamole
         restart: always
         depends_on:
@@ -161,6 +146,24 @@ services:
         environment:
             GUACD_HOSTNAME: guacd
             POSTGRES_HOSTNAME: postgres
+        env_file:
+            - ./guacamole/config/config.env
+
+
+    guacd:
+        image: guacamole/guacd
+        restart: always
+        volumes:
+            - ./guacamole/data/drive:/drive
+            - ./guacamole/data/record:/record
+
+
+    postgres: # https://hub.docker.com/_/postgres
+        image: postgres:16.0-alpine3.18
+        restart: always
+        volumes:
+            - ./guacamole/config/init:/docker-entrypoint-initdb.d:ro
+            - ./guacamole/data/postgres:/var/lib/postgresql/data
         env_file:
             - ./guacamole/config/config.env # 데이터베이스명 및 사용자 설정
 

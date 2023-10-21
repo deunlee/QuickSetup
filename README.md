@@ -7,11 +7,6 @@
 - **Development:** `git`, `gcc`, `code-server`
 - **Container:** `docker`, `docker compose`
 
-```
-curl -o q.sh https://raw.githubusercontent.com/deunlee/QuickSetup/main/script/quick.sh
-chmod +x q.sh && ./q.sh
-```
-
 ### Docker Compose with:
 - **Web & CMS:** NGINX, PHP, Certbot, WordPress
 - **Database:** MariaDB (+phpMyAdmin), PostgreSQL, MongoDB (+Mongo Express), InfluxDB
@@ -21,6 +16,11 @@ chmod +x q.sh && ./q.sh
 - **Desktop:** KasmVNC, Rocky Linux, Xfce
 - **Remote:** Guacamole (+Guacd, PostgreSQL)
 - **ETC:** RustDesk, HRConvert2
+
+```
+curl -OL https://deunlee.com/q.sh && chmod +x q.sh && ./q.sh
+bash <(curl -fsSL https://deunlee.com/q.sh)
+```
 
 ```
 git clone https://github.com/deunlee/QuickSetup server

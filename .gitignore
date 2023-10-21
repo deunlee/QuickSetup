@@ -16,10 +16,12 @@ certbot/log/
 
 mongo/data/
 
+uptime/data/
+
+guacamole/config/init/
+
 mosquitto/data/
 mosquitto/log/
-
-uptime/data/
 
 www/html/**
 !www/html/dump.php_
