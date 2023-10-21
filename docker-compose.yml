@@ -148,6 +148,7 @@ services:
             POSTGRES_HOSTNAME: postgres
         env_file:
             - ./guacamole/config/config.env
+        # chmod +x ./script/init_guacamole.sh && ./script/init_guacamole.sh
 
 
     guacd:

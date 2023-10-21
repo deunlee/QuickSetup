@@ -6,6 +6,7 @@
 - **Network:** `net-tools`, `tcpdump`, `nmap`
 - **Development:** `git`, `gcc`, `code-server`
 - **Container:** `docker`, `docker compose`
+- **ETC:** `ffmpeg`
 
 ### Docker Compose with:
 - **Web & CMS:** NGINX, PHP, Certbot, WordPress

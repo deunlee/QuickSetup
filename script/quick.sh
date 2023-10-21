@@ -98,7 +98,7 @@ clear_cache() {
     fi
     case $DIST_NAME in
         rocky|almalinux)
-            # Tested in Rocky Linux 9.1
+            # Tested in Rocky Linux 9.1, 9.2
             # Tested in AlmaLinux 9.0
             shadow sudo dnf clean metadata ;;
         ubuntu)
@@ -143,7 +143,7 @@ install() {
     sudo true
     case $DIST_NAME in
         rocky|almalinux)
-            # Tested in Rocky Linux 8.4, 9.1
+            # Tested in Rocky Linux 8.4, 9.1, 9.2
             # Tested in AlmaLinux 9.0
             shadow sudo dnf -y install $@ | cat ;;
         ubuntu)
@@ -228,11 +228,12 @@ install_script() { # install the script (download to /usr/local/bin)
 
 ################################################################################
 
+htop_version() { htop --version | cut -d ' ' -f 2; }
 htop_install() {
     case $DIST_NAME in
         centos|rocky|almalinux)
             # Tested in CentOS 7
-            # Tested in Rocky Linux 8.4, 9.1
+            # Tested in Rocky Linux 8.4, 9.1, 9.2
             # Tested in AlmaLinux 9.0
             install epel-release ;;
         ol)
@@ -247,6 +248,8 @@ htop_install() {
     install htop
 }
 
+btop_version() { btop --version | cut -d ' ' -f 3; }
+wget_version() { wget --version | head -n 1 | cut -d ' ' -f 3; }
 zip_version() { zip -h | head -n 2 | tail -n 1; }
 
 nettools_check()   { check netstat; }
@@ -371,7 +374,7 @@ docker_install() {
     echo -en "$DGRAY"
     case $DIST_NAME in
         rocky|almalinux)
-            # Tested in Rocky Linux 8.4, 9.1
+            # Tested in Rocky Linux 8.4, 9.1, 9.2
             # Tested in AlmaLinux 9.0
             sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
             sudo dnf install -y --allowerasing docker-ce ;;
@@ -402,7 +405,7 @@ docker_install() {
     fi
 }
 
-DOCKER_COMPOSE_VERSION="2.22.0"
+DOCKER_COMPOSE_VERSION="2.23.0"
 # https://github.com/docker/compose/releases
 
 compose_check()   { [ -e ~/.docker/cli-plugins ]; }
@@ -467,7 +470,6 @@ editorconfig.editorconfig
 wayou.vscode-todo-highlight
 tyriar.sort-lines
 mhutchie.git-graph
-# tomoki1207.pdf
 
 ############### JavaScript ################
 dbaeumer.vscode-eslint
@@ -478,7 +480,7 @@ ms-python.python
 
 ################## Style ##################
 vscode-icons-team.vscode-icons
-ms-ceintl.vscode-language-pack-ko
+# ms-ceintl.vscode-language-pack-ko
 # ms-ceintl.vscode-language-pack-ja
 EOT
 
@@ -519,8 +521,26 @@ EOT
 
 ################################################################################
 
+ffmpeg_version() { ffmpeg -version | head -n 1 | cut -d ' ' -f 3; }
+ffmpeg_install() {
+    case $DIST_NAME in
+        rocky|almalinux)
+            # Tested in Rocky Linux 9.2
+            shadow sudo dnf install epel-release -y
+            shadow sudo dnf config-manager --set-enabled crb
+            shadow sudo dnf install --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm -y
+            shadow sudo dnf install --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm -y
+            shadow sudo dnf install ffmpeg ffmpeg-devel -y ;;
+        *)
+            install ffmpeg ;;
+    esac
+    if [ $? -ne 0 ]; then return 1; fi
+}
+
+################################################################################
+
 set_timezone() {
-    # Tested in Rocky Linux 9.1
+    # Tested in Rocky Linux 9.1, 9.2
     DEFAULT_TIMEZONE="Asia/Seoul"
     CURRENT_TIMEZONE="$(timedatectl | grep "Time zone: " | cut -d ":" -f 2 | cut -d " " -f 2)"
     if [ "$CURRENT_TIMEZONE" != "$DEFAULT_TIMEZONE" ] && [ $(confirm "Do you want to change timezone to KST?" "n") = "y" ]; then
@@ -537,7 +557,7 @@ set_timezone() {
 # }
 
 disable_default_firewall() {
-    # Tested in Rocky Linux 9.1
+    # Tested in Rocky Linux 9.1, 9.2
     if is_service_running firewalld ; then
         if [ $(confirm "Do you want to disable the firewalld?" "y") = "y" ]; then
             sudo systemctl stop firewalld
@@ -561,7 +581,7 @@ disable_default_firewall() {
 
 main() {
     echo "=================================================="
-    echo "===   DeunLee's Quick Setup Script (V.1.5.0)   ==="
+    echo "===   DeunLee's Quick Setup Script (V.1.5.2)   ==="
     echo "=================================================="
     echo
 
@@ -596,6 +616,8 @@ main() {
     install_package "docker"
     install_package "compose"  "docker-compose"
     install_package "code"     "code-server"
+    install_package "ffmpeg"   "ffmpeg"    "n"
+
 
     zsh_add_aliases
     zsh_add_docker_aliases
