@@ -237,11 +237,12 @@ htop_install() {
             # Tested in AlmaLinux 9.0
             install epel-release ;;
         ol)
-            # Tested in Oracle Linux 7.9, 8.5
+            # Tested in Oracle Linux 7.9, 8.5, 9.2
             case $(get_dist_version) in
                 7*) shadow sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm ;;
                 8*) shadow sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm ;;
-                *)  return 1 ;;
+                9*) shadow sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm ;;
+                *)  install epel-release ;;
             esac ;;
         # Already installed in Ubuntu 18.04, 20.04, 22.04
     esac
@@ -379,7 +380,7 @@ docker_install() {
             sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
             sudo dnf install -y --allowerasing docker-ce ;;
         ol)
-            # Tested in Oracle Linux 7.9, 8.5
+            # Tested in Oracle Linux 7.9, 8.5, 9.2
             sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
             sudo yum install -y docker-ce docker-ce-cli containerd.io | cat ;;
         amzn)
@@ -532,6 +533,7 @@ ffmpeg_install() {
             shadow sudo dnf install --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm -y
             shadow sudo dnf install ffmpeg ffmpeg-devel -y ;;
         *)
+            # Tested in Ubuntu 22.04
             install ffmpeg ;;
     esac
     if [ $? -ne 0 ]; then return 1; fi
@@ -541,6 +543,7 @@ ffmpeg_install() {
 
 set_timezone() {
     # Tested in Rocky Linux 9.1, 9.2
+    # Tested in Ubuntu 22.04
     DEFAULT_TIMEZONE="Asia/Seoul"
     CURRENT_TIMEZONE="$(timedatectl | grep "Time zone: " | cut -d ":" -f 2 | cut -d " " -f 2)"
     if [ "$CURRENT_TIMEZONE" != "$DEFAULT_TIMEZONE" ] && [ $(confirm "Do you want to change timezone to KST?" "n") = "y" ]; then
@@ -558,20 +561,23 @@ set_timezone() {
 
 disable_default_firewall() {
     # Tested in Rocky Linux 9.1, 9.2
+    # Tested in Oracle Linux 9.2
     if is_service_running firewalld ; then
         if [ $(confirm "Do you want to disable the firewalld?" "y") = "y" ]; then
-            sudo systemctl stop firewalld
+            shadow sudo systemctl stop firewalld
             shadow sudo systemctl disable firewalld
             shadow sudo systemctl status firewalld --no-pager
             echo
         fi
     fi
 
+    # Tested in Ubuntu 22.04
     if is_service_running ufw ; then
         if [ $(confirm "Do you want to disable the ufw?" "y") = "y" ]; then
-            shadow sudo ufw status
             shadow sudo ufw disable
-            shadow sudo ufw status
+            shadow sudo systemctl stop ufw
+            shadow sudo systemctl disable ufw
+            shadow sudo systemctl status ufw --no-pager
             echo
         fi
     fi
