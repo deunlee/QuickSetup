@@ -79,6 +79,8 @@ services:
         # 초기 인증서 설정은 ./script/init_certbot.sh 스크립트 이용 (도메인 및 이메일 수정)
         # DNS TXT 레코드 인증을 통한 와일드카드 인증서 발급:
         # dcr certbot certbot certonly --manual --agree-tos --preferred-challenges dns -d "example.com" -d "*.example.com" --email "admin@example.com"
+        # 와일드카드 사용시 "*."가 붙은 도메인과 붙지 않은 도메인을 모두 명시해야 함 ("*."는 서브 도메인만 해당하고 루트는 포함되지 않음)
+        # DNS에 "_acme-challenge" TXT 레코드 2개 등록 후 몇 분 대기해야 함
 
     #================================================================================
 
@@ -151,7 +153,9 @@ services:
             POSTGRES_HOSTNAME: postgres
         env_file:
             - ./guacamole/config/config.env
-        # chmod +x ./script/init_guacamole.sh && ./script/init_guacamole.sh
+        # 데이터베이스 설정 필요: chmod +x ./script/init_guacamole.sh && ./script/init_guacamole.sh
+        # Default Credentials: guacadmin / guacadmin
+        # 관리자(모든 권한 허용) 계정 추가, 기본 계정 삭제, 설정에서 원격 정보 추가, 홈에서 원격 제어
 
 
     guacd: # https://hub.docker.com/r/guacamole/guacd

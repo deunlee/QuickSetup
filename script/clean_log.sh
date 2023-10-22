@@ -1,4 +1,6 @@
 #!/bin/bash
 
-sudo cat /dev/null > ./nginx/log/access.log
-sudo cat /dev/null > ./nginx/log/error.log
+sudo sh -c "cat /dev/null > ./nginx/log/access.log"
+sudo sh -c "cat /dev/null > ./nginx/log/error.log"
+
+rm -f ./certbot/log/*.log*
