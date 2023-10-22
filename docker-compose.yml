@@ -5,6 +5,7 @@ version: "3.7"
 # Reload Command:
     # dce php kill -USR2 1
     # dce nginx nginx -s reload
+    # dcr certbot certbot renew
 
 services:
 
@@ -46,6 +47,7 @@ services:
         restart: always
         depends_on:
             - php
+            # - guacamole
         ports:
             - 80:80
             - 443:443
@@ -66,16 +68,17 @@ services:
         # command: "/bin/sh -c 'while :; do sleep 72h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
 
-    # certbot: # https://hub.docker.com/r/certbot/certbot
-        # image: certbot/certbot
-        # volumes:
-        #     - ./certbot/data:/etc/letsencrypt
-        #     - ./certbot/log:/var/log/letsencrypt
-        #     - ./certbot/www:/var/www/certbot
-        # env_file:
-        #     - ./timezone.env
-        # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 72h & wait $${!}; done;'"
+    certbot: # https://hub.docker.com/r/certbot/certbot
+        build: certbot/docker
+        volumes:
+            - ./certbot/data:/etc/letsencrypt
+            - ./certbot/log:/var/log/letsencrypt
+            - ./certbot/www:/var/www/certbot
+        env_file:
+            - ./timezone.env
         # 초기 인증서 설정은 ./script/init_certbot.sh 스크립트 이용 (도메인 및 이메일 수정)
+        # DNS TXT 레코드 인증을 통한 와일드카드 인증서 발급:
+        # dcr certbot certbot certonly --manual --agree-tos --preferred-challenges dns -d "example.com" -d "*.example.com" --email "admin@example.com"
 
     #================================================================================
 
@@ -134,7 +137,7 @@ services:
             - ./uptime/data:/app/data
 
 
-    guacamole:
+    guacamole: # https://hub.docker.com/r/guacamole/guacamole
         # https://github.com/boschkundendienst/guacamole-docker-compose
         image: guacamole/guacamole
         restart: always
@@ -151,7 +154,7 @@ services:
         # chmod +x ./script/init_guacamole.sh && ./script/init_guacamole.sh
 
 
-    guacd:
+    guacd: # https://hub.docker.com/r/guacamole/guacd
         image: guacamole/guacd
         restart: always
         volumes:

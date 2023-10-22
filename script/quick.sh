@@ -351,6 +351,7 @@ alias dnet='docker network ls'
 alias dinn='docker network inspect'
 alias dpr=' docker system prune -a'
 alias dco=' docker compose'
+alias dcp=' docker compose pull'
 alias dcb=' docker compose build'
 alias dcbp='docker compose build --progress plain'
 alias dce=' docker compose exec'
@@ -362,10 +363,6 @@ alias dcdn='docker compose down'
 alias dct=' docker compose top'
 alias dcl=' docker compose logs --tail="50"'
 alias dclf='docker compose logs -f --tail="50"'
-# alias dcp='docker-compose -f /opt/docker-compose.yml'
-# alias dcpull='docker-compose -f /opt/docker-compose.yml pull'
-# alias dclogs='docker-compose -f /opt/docker-compose.yml logs -tf --tail="50" '
-# alias dtail='docker logs -tf --tail="50" "$@"'
 EOT
 }
 
