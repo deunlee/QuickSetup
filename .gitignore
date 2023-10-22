@@ -1,6 +1,5 @@
 asset/
 backup/
-/*.ini
 
 mariadb/config/init/
 mariadb/config/config.env

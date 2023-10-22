@@ -587,7 +587,7 @@ disable_default_firewall() {
 
 main() {
     echo "=================================================="
-    echo "===   DeunLee's Quick Setup Script (V.1.5.2)   ==="
+    echo "===   DeunLee's Quick Setup Script (V.1.5.3)   ==="
     echo "=================================================="
     echo
 
@@ -624,16 +624,13 @@ main() {
     install_package "code"     "code-server"
     install_package "ffmpeg"   "ffmpeg"    "n"
 
-
     zsh_add_aliases
     zsh_add_docker_aliases
-
 
     GIT_RAW="https://raw.githubusercontent.com"
     install_script "neofetch" "$GIT_RAW/dylanaraps/neofetch/master/neofetch" "y" "y"
     install_script "spectre-meltdown-checker" "$GIT_RAW/speed47/spectre-meltdown-checker/master/spectre-meltdown-checker.sh" "n"
     echo
-
 
     if [ ! -e ~/docker ] && [ $(confirm "Do you want to clone deunlee/QuickSetup repository to ~/server?" "n") = "y" ]; then
         shadow git clone https://github.com/deunlee/QuickSetup ~/server
