@@ -2,10 +2,14 @@ version: "3.7"
 # https://docs.docker.com/compose/compose-file/compose-file-v3/
 # https://github.com/compose-spec/compose-spec/blob/master/spec.md
 
-# Reload Command:
+# Commands for Reload:
     # dce php kill -USR2 1
     # dce nginx nginx -s reload
     # dcr certbot certbot renew
+    # docker compose restart <service>
+# Commands for Check Configuration:
+    # dce nginx nginx -t
+    # dcc (docker compose config --quiet)
 
 services:
 
@@ -146,16 +150,28 @@ services:
         depends_on:
             - guacd
             - postgres
-        ports:
-            - 8081:8080  # Guacamole is on "/guacamole", not "/".
+        # ports:
+            # - 8081:8080
+            # curl http://localhost:8081/guacamole/ (Guacamole is on "/guacamole", not "/".)
         environment:
+            # https://github.com/apache/guacamole-client/blob/master/guacamole-docker/bin/start.sh
+            # dce guacamole cat /home/guacamole/tomcat/conf/server.xml
+            # dce guacamole cat /opt/guacamole/bin/start.sh
             GUACD_HOSTNAME: guacd
             POSTGRES_HOSTNAME: postgres
+            REMOTE_IP_VALVE_ENABLED: true # Uncomment if using NGINX's reverse proxy.
+            # Use Tomcat's default internal IP regexp by commenting out below.
+            # https://tomcat.apache.org/tomcat-8.5-doc/api/org/apache/catalina/valves/RemoteIpValve.html
+            # PROXY_ALLOWED_IPS_REGEX: 192.168/16    # internalProxies
+            PROXY_IP_HEADER: x-forwarded-for         # remoteIpHeader
+            PROXY_PROTOCOL_HEADER: x-forwarded-proto # protocolHeader
+            PROXY_BY_HEADER: x-forwarded-by          # remoteIpProxiesHeader
         env_file:
             - ./guacamole/config/config.env
         # 데이터베이스 설정 필요: chmod +x ./script/init_guacamole.sh && ./script/init_guacamole.sh
         # Default Credentials: guacadmin / guacadmin
-        # 관리자(모든 권한 허용) 계정 추가, 기본 계정 삭제, 설정에서 원격 정보 추가, 홈에서 원격 제어
+        # 관리자(모든 권한 허용) 계정 추가, 기본 계정 삭제, 오른쪽 상단 메뉴 중 셋팅에서 원격 연결 추가, 홈에서 원격 제어
+        # RDP: 매개변수 -> 네트워크 & 인증 정보 입력, 서버 인증서 무시 사용, ClearType 활성화, Resize 메서드: 가상 채널 사용
 
 
     guacd: # https://hub.docker.com/r/guacamole/guacd
