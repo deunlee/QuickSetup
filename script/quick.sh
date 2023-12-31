@@ -251,11 +251,15 @@ htop_install() {
 
 btop_version() { btop --version | cut -d ' ' -f 3; }
 wget_version() { wget --version | head -n 1 | cut -d ' ' -f 3; }
-zip_version() { zip -h | head -n 2 | tail -n 1; }
+zip_version()  { zip -h | head -n 2 | tail -n 1 | cut -d ' ' -f 2; }
+git_version()  { git -v | cut -d ' ' -f 3; }
 
 nettools_check()   { check netstat; }
 nettools_version() { version netstat; }
 nettools_install() { install net-tools; }
+
+tcpdump_version()  { tcpdump --version | head -n 1 | cut -d ' ' -f 3; }
+nmap_version()     { nmap    --version | head -n 1 | cut -d ' ' -f 3; }
 
 ################################################################################
 
@@ -368,6 +372,7 @@ EOT
 
 ################################################################################
 
+docker_version() { docker -v | cut -d ' ' -f 3 | cut -d ',' -f 1; }
 docker_install() {
     echo -en "$DGRAY"
     case $DIST_NAME in
@@ -407,7 +412,7 @@ DOCKER_COMPOSE_VERSION="2.23.3"
 # https://github.com/docker/compose/releases
 
 compose_check()   { [ -e ~/.docker/cli-plugins ]; }
-compose_version() { docker compose version; }
+compose_version() { docker compose version | cut -d 'v' -f 3; }
 compose_install() {
     check docker || return 1 # docker is not installed
 
@@ -584,7 +589,7 @@ disable_default_firewall() {
 
 main() {
     echo "=================================================="
-    echo "===   DeunLee's Quick Setup Script (V.1.5.4)   ==="
+    echo "===   DeunLee's Quick Setup Script (V.1.5.5)   ==="
     echo "=================================================="
     echo
 
