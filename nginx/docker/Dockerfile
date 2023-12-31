@@ -4,10 +4,12 @@ FROM nginx:1.25-alpine
 
 RUN apk add --no-cache \
 		bash \
-		openssl
+		openssl \
+		apache2-utils
+# `apache2-utils` for `htpasswd`
 
 # Add certificate generation script for HTTPS.
-# (It creates a 10-year self-signed certificate if there is no default certificate in the nginx/config/private/.)
+# It creates a 10-year self-signed certificate if there is no default certificate in the `nginx/config/private/`.
 COPY generate_cert.sh /docker-entrypoint.d/
 RUN chmod +x /docker-entrypoint.d/*.sh
 
