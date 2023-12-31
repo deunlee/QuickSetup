@@ -312,9 +312,8 @@ zsh_add_aliases() {
 alias l="ls -alh --color=always -F --group-directories-first |awk '{k=0;s=0;for(i=0;i<=8;i++){;k+=((substr(\$1,i+2,1)~/[rwxst]/)*2^(8-i));};j=4;for(i=4;i<=10;i+=3){;s+=((substr(\$1,i,1)~/[stST]/)*j);j/=2;};if(k){;printf(\"%0o%0o \",s,k);};print;}'"
 alias q='exit'
 alias cls='clear'
-alias h='  history'
-alias hs=' history | grep'
-alias hsi='history | grep -i'
+alias h='  history -i'           # `-i`: show date/time
+alias hg=' history -i | grep -i' # `-i`: ignore case
 alias dcache='echo 3 | sudo tee /proc/sys/vm/drop_caches'
 alias dswap='sudo swapoff -a; sudo swapon -a'
 # alias userinfo='sudo tail -n 3 /etc/passwd && echo && sudo tail -n 3 /etc/shadow && echo && sudo tail -n 3 /etc/group && echo && sudo tail -n 3 /etc/gshadow'
@@ -351,6 +350,7 @@ alias dnet='docker network ls'
 alias dinn='docker network inspect'
 alias dpr=' docker system prune -a'
 alias dco=' docker compose'
+alias dcc=' docker compose config --quiet'
 alias dcp=' docker compose pull'
 alias dcb=' docker compose build'
 alias dcbp='docker compose build --progress plain'
@@ -403,7 +403,7 @@ docker_install() {
     fi
 }
 
-DOCKER_COMPOSE_VERSION="2.23.0"
+DOCKER_COMPOSE_VERSION="2.23.3"
 # https://github.com/docker/compose/releases
 
 compose_check()   { [ -e ~/.docker/cli-plugins ]; }
@@ -584,7 +584,7 @@ disable_default_firewall() {
 
 main() {
     echo "=================================================="
-    echo "===   DeunLee's Quick Setup Script (V.1.5.3)   ==="
+    echo "===   DeunLee's Quick Setup Script (V.1.5.4)   ==="
     echo "=================================================="
     echo
 
