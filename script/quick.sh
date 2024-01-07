@@ -252,7 +252,7 @@ htop_install() {
 btop_version() { btop --version | cut -d ' ' -f 3; }
 wget_version() { wget --version | head -n 1 | cut -d ' ' -f 3; }
 zip_version()  { zip -h | head -n 2 | tail -n 1 | cut -d ' ' -f 2; }
-git_version()  { git -v | cut -d ' ' -f 3; }
+git_version()  { git --version | cut -d ' ' -f 3; }
 
 nettools_check()   { check netstat; }
 nettools_version() { version netstat; }

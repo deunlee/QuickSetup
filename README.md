@@ -1,6 +1,8 @@
 # Quick Setup
 
 
+Server $\lim_{n \to \infty } n$
+
 ### Tools:
 - **System:** `htop`, `btop`, `wget`, `zip`, `vim`, `zsh`, `oh-my-zsh`, `neofetch`
 - **Network:** `net-tools`, `tcpdump`, `nmap`
@@ -35,7 +37,3 @@ docker compsoe up
 git config --local user.name "TEST"
 git config --local user.email "test@test.com"
 -->
-
-
-
-
