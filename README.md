@@ -13,13 +13,15 @@ $$ \text{Setting up } \lim_{n \to \infty } n \text{ } \text{ servers is tiring. 
 
 ### Docker Compose with:
 - **Web & CMS:** NGINX, PHP, Certbot, WordPress
-- **Database:** MariaDB (+phpMyAdmin), PostgreSQL, MongoDB (+Mongo Express), InfluxDB
-- **Development:** Python, Node.js, Java JDK
-- **Monitoring:** Uptime Kuma, Grafana
+- **Database:** MariaDB (+phpMyAdmin), PostgreSQL, MongoDB (+Mongo Express), _InfluxDB_, _Redis_
+- **Development:** Python, Node.js, Java JDK, _Kafka_, _ElasticSearch_
+- **SCM & CI/CD:** _GitLab_, _Jenkins_
+- **Monitoring:** Uptime Kuma, _Grafana (+InfluxDB)_
 - **IoT:** ThingsBoard, mosquitto, ESP-IDF
 - **Desktop:** KasmVNC, Rocky Linux, Xfce
-- **Remote:** Guacamole (+Guacd, PostgreSQL)
-- **ETC:** RustDesk, HRConvert2
+- **Remote:** Guacamole (+Guacd, PostgreSQL), _RustDesk_
+- **ETC:** _HRConvert2_
+
 
 ```
 curl -OL https://deunlee.com/q.sh && chmod +x q.sh && ./q.sh
