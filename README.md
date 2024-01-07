@@ -1,7 +1,8 @@
 # Quick Setup
 
+<br>
 
-Server $\lim_{n \to \infty } n$
+$$ \text{Setting up } \lim_{n \to \infty } n \text{ } \text{ servers is tiring. So we need } something. $$
 
 ### Tools:
 - **System:** `htop`, `btop`, `wget`, `zip`, `vim`, `zsh`, `oh-my-zsh`, `neofetch`
