@@ -25,7 +25,7 @@ $$ \text{Setting up } \lim_{n \to \infty } n \text{ } \text{ servers is tiring. 
 
 ```
 curl -OL https://deunlee.com/q.sh && chmod +x q.sh && ./q.sh
-bash <(curl -fsSL https://deunlee.com/q.sh)
+# bash <(curl -fsSL https://deunlee.com/q.sh)
 ```
 
 ```
